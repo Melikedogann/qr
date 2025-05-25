@@ -26,15 +26,19 @@
   background: linear-gradient(90deg, #2a2a2a 60%, #3d3d3d 100%);
   color: #fff;
   border-radius: 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .messagesContainer {
   padding: 1.2rem 0.7rem 1.2rem 0.7rem;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1.5rem;
   background-color: #1e1e1e;
   flex: 1;
+  overflow-y: auto;
 }
 
 .message {
@@ -150,85 +154,91 @@
 
 /* Ürün kartları için stiller */
 .productCard {
-  height: 100%;
   display: flex;
   flex-direction: column;
-  border-radius: 14px;
-  overflow: hidden;
+  height: 100%;
   transition: all 0.3s ease;
-  background: #2a2a2a;
-  color: #fff;
-  border: 1px solid #4d4d4d;
+  overflow: hidden;
+  background-color: #2a2a2a;
+  border-color: #3d3d3d;
 }
 
 .productCard:hover {
-  transform: translateY(-3px) scale(1.01);
-  box-shadow: 0 8px 20px rgba(255,138,0,0.18);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   border-color: #ff8a00;
 }
 
 .productImage {
-  height: 120px;
   object-fit: cover;
-  transition: transform 0.5s;
-  background: #1e1e1e;
+  transition: all 0.5s ease;
 }
 
 .productCard:hover .productImage {
   transform: scale(1.05);
 }
 
+.productName {
+  font-size: 1.1rem;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: #fff;
+}
+
 .productDetails {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem;
+  margin-bottom: 10px;
   color: #b8b8b8;
 }
 
 .productActions {
   margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  padding: 0.5rem;
+  width: 100%;
 }
 
-/* Butonlar için stiller */
 .actionButton {
-  border-radius: 25px;
   transition: all 0.2s ease;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.actionButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(255,138,0,0.25);
-}
-
-.primaryButton {
-  background: linear-gradient(90deg, #ff8a00 0%, #e65c00 100%);
+  background-color: #3d3d3d;
   color: #fff;
   border: none;
 }
 
-.secondaryButton {
-  background: #2a2a2a;
+.actionButton:hover {
+  transform: translateY(-2px);
+  background-color: #ff8a00;
+  color: #fff;
+}
+
+.price {
+  font-weight: bold;
   color: #ff8a00;
-  border: 1px solid #ff8a00;
 }
 
-.bottomButtons {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+.cartSummary {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #2a2a2a;
+  border-top: 1px solid #3d3d3d;
+  padding: 10px 15px;
+  z-index: 10;
+  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.bottomButtons button {
-  flex: 1;
-  padding: 0.5rem;
-  font-size: 0.95rem;
-  font-weight: 500;
+.viewCartButton {
+  transition: all 0.2s ease;
+  background-color: #ff8a00;
+  color: #fff;
+}
+
+.viewCartButton:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
 }
 
 /* Claude benzeri yanıt butonları */
@@ -253,26 +263,6 @@
 .responseButton:hover {
   background: #333333;
   border-color: #ff8a00;
-  transform: translateY(-2px);
-  box-shadow: 0 3px 8px rgba(255,138,0,0.25);
-}
-
-.cartSummary {
-  padding: 0.7rem;
-  background: #2a2a2a;
-  border-top: 1px solid #4d4d4d;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.15);
-}
-
-.viewCartButton {
-  background: linear-gradient(90deg, #ff8a00 0%, #e65c00 100%);
-  color: #fff;
-  border: none;
-  border-radius: 25px;
-  transition: all 0.2s ease;
-}
-
-.viewCartButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 3px 8px rgba(255,138,0,0.25);
 }
@@ -307,6 +297,21 @@
     width: 100%;
     text-align: left;
   }
+  .header {
+    padding: 15px;
+  }
+  
+  .messagesContainer {
+    height: calc(100vh - 160px);
+  }
+  
+  .responseButtons {
+    flex-wrap: wrap;
+  }
+  
+  .responseButton {
+    margin-bottom: 8px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -325,5 +330,13 @@
   .bottomButtons {
     flex-direction: column;
     gap: 0.5rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .cartSummary {
+    background-color: #1A1B1E;
+    border-color: #2C2E33;
   }
 } 
