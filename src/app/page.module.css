@@ -166,3 +166,241 @@ a.secondary {
     filter: invert();
   }
 }
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.backgroundContainer {
+  width: 100%;
+  min-height: 100vh;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&h=1080&fit=crop&crop=center');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.heroContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.glassPanel {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 3rem 2rem;
+  max-width: 1200px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: fadeIn 1s ease-in-out;
+}
+
+.title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(90deg, #00AAFF, #FFA500, #FF4FA7);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: titleGradient 8s infinite linear;
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  opacity: 0.8;
+  margin-bottom: 2.5rem;
+  animation: fadeUp 1s ease-out 0.5s both;
+}
+
+.categoriesGrid {
+  animation: fadeUp 1s ease-out 0.8s both;
+}
+
+.categoryCard {
+  padding: 2rem;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 280px;
+  position: relative;
+  overflow: hidden;
+}
+
+.categoryCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.1) 100%);
+  pointer-events: none;
+}
+
+.categoryIconContainer {
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.categoryIcon {
+  font-size: 3rem;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.categoryCard:hover .categoryIcon {
+  transform: scale(1.1);
+  border-color: currentColor;
+}
+
+.categoryTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.categoryDescription {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+  opacity: 0.8;
+  position: relative;
+  z-index: 1;
+}
+
+.categoryButton {
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.categoryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes titleGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .backgroundContainer {
+    background-attachment: scroll;
+  }
+  
+  .title {
+    font-size: 2.2rem;
+  }
+  
+  .subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .glassPanel {
+    padding: 2rem 1rem;
+  }
+  
+  .categoryCard {
+    padding: 1.5rem;
+    min-height: 240px;
+  }
+  
+  .categoryIcon {
+    font-size: 2.5rem;
+    width: 70px;
+    height: 70px;
+  }
+  
+  .categoryTitle {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .categoryCard {
+    padding: 1rem;
+    min-height: 220px;
+  }
+  
+  .categoryIcon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+  }
+  
+  .categoryTitle {
+    font-size: 1.2rem;
+  }
+  
+  .categoryDescription {
+    font-size: 0.9rem;
+  }
+}

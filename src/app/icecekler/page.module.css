@@ -1,0 +1,216 @@
+.pageContainer {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+}
+
+.header {
+  padding: 2rem 0;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.backButton {
+  transition: transform 0.3s ease;
+}
+
+.backButton:hover {
+  transform: translateX(-3px);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-top: 0.5rem;
+}
+
+.container {
+  padding: 3rem 1rem;
+}
+
+.productsGrid {
+  animation: fadeUp 0.6s ease-out;
+}
+
+.productCard {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+  border-radius: 16px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.productCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(129, 212, 250, 0.3);
+}
+
+.imageContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.productImage {
+  transition: transform 0.5s ease;
+  height: 180px;
+  object-fit: cover;
+}
+
+.productCard:hover .productImage {
+  transform: scale(1.05);
+}
+
+.videoButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 10;
+}
+
+.imageContainer:hover .videoButton {
+  opacity: 1;
+}
+
+.videoContainer {
+  position: relative;
+  height: 180px;
+  background-color: #000;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnailContainer {
+  position: relative;
+  height: 100%;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
+}
+
+.playButton:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.productName {
+  font-size: 1.3rem;
+  line-height: 1.3;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+  font-weight: 600;
+}
+
+.productDescription {
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+  color: #666;
+}
+
+.price {
+  font-size: 1.5rem;
+  transition: color 0.3s ease;
+  font-weight: 700;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  .header {
+    padding: 1.5rem 0;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+  
+  .subtitle {
+    font-size: 1rem;
+  }
+  
+  .container {
+    padding: 2rem 0.75rem;
+  }
+  
+  .productCard {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 1rem 0;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .container {
+    padding: 1.5rem 0.5rem;
+  }
+  
+  .productName {
+    font-size: 1.2rem;
+  }
+  
+  .price {
+    font-size: 1.3rem;
+  }
+} 
