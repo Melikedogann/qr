@@ -213,13 +213,13 @@ a.secondary {
 }
 
 .glassPanel {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(15px);
+  background: transparent;
+  backdrop-filter: none;
   border-radius: 30px;
   padding: 4rem 3rem;
   width: 100%;
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: none;
+  border: none;
   animation: fadeIn 1s ease-in-out;
 }
 
@@ -236,10 +236,11 @@ a.secondary {
   font-weight: 800;
   position: relative;
   display: inline-block;
-  color: #333;
+  color: #fff;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .mainSectionTitle::after {
@@ -342,9 +343,10 @@ a.secondary {
   text-align: left;
   position: relative;
   overflow: hidden;
-  background: white;
-  border: none;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  background: transparent !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
 .categoryCard::before {
@@ -354,7 +356,7 @@ a.secondary {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.2) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -364,7 +366,7 @@ a.secondary {
   position: absolute;
   width: 150%;
   height: 150%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
   top: -25%;
   left: -25%;
   opacity: 0;
@@ -374,7 +376,7 @@ a.secondary {
 }
 
 .categoryCard:hover::after {
-  opacity: 0.2;
+  opacity: 0.3;
 }
 
 .size-large {
@@ -387,7 +389,7 @@ a.secondary {
 
 .size-special {
   min-height: 320px;
-  background: linear-gradient(135deg, #FFF4E6, #FFEDDB) !important;
+  background: linear-gradient(135deg, rgba(255, 138, 0, 0.8), rgba(230, 92, 0, 0.8)) !important;
   border: 2px solid #ff8a00 !important;
   position: relative;
   overflow: hidden;
@@ -444,8 +446,10 @@ a.secondary {
   align-items: center;
   justify-content: center;
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 3px solid transparent;
+  border: 3px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
 }
 
 .categoryCard:hover .categoryIcon {
@@ -461,6 +465,8 @@ a.secondary {
   position: relative;
   z-index: 2;
   font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.8);
+  color: #fff !important;
 }
 
 .categoryDescription {
@@ -468,11 +474,13 @@ a.secondary {
   line-height: 1.6;
   margin-bottom: 1.8rem;
   flex-grow: 1;
-  opacity: 0.8;
+  opacity: 0.95;
   position: relative;
   z-index: 2;
   transition: all 0.3s ease;
   font-family: 'Segoe UI', Tahoma, Arial, Helvetica, sans-serif;
+  text-shadow: 0 3px 5px rgba(0, 0, 0, 0.8);
+  color: #fff !important;
 }
 
 .categoryButton {
@@ -586,8 +594,9 @@ a.secondary {
   .glassPanel {
     padding: 1.5rem 1rem;
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.97);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
     overflow: hidden;
   }
   
@@ -633,12 +642,12 @@ a.secondary {
     padding: 0;
     min-height: 100px;
     border-radius: 16px;
-    background: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    background: transparent !important;
+    backdrop-filter: blur(10px) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     margin-bottom: 5px;
-    border-left: none;
-    border-top: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .sefOnerilerCol .categoryCard {
@@ -701,17 +710,21 @@ a.secondary {
     justify-content: center;
   }
   
-  .categoryTitle {
+    .categoryTitle {
     font-size: 1.1rem;
     margin-bottom: 0.25rem;
     font-weight: 700;
+    color: #fff !important;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
   }
-  
+
   .categoryDescription {
     font-size: 0.85rem;
     margin-bottom: 0.6rem;
     line-height: 1.3;
-    opacity: 0.85;
+    opacity: 0.9;
+    color: #fff !important;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
   }
   
   .featuredBadge {
@@ -786,15 +799,19 @@ a.secondary {
     border-radius: 10px;
   }
   
-  .categoryTitle {
+    .categoryTitle {
     font-size: 1rem;
     margin-bottom: 0.2rem;
+    color: #fff !important;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.6);
   }
-  
+
   .categoryDescription {
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
     line-height: 1.25;
+    color: #fff !important;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
   }
   
   .categoryTextContainer {
@@ -811,15 +828,16 @@ a.secondary {
 }
 
 .categoryIntro {
-  color: #555;
+  color: #fff;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   font-weight: 500;
-  opacity: 0.9;
+  opacity: 0.95;
   position: relative;
   animation: fadeUp 1s ease-out 0.5s both;
   font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .categoryIntro::after {

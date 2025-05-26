@@ -1,10 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Container, Title, Text, Grid, Card, Image, Badge, Group, Button, ActionIcon, Flex, Box } from '@mantine/core';
-import { IconPlayerPlay, IconArrowLeft, IconHeart, IconShoppingCart } from '@tabler/icons-react';
+import { Container, Text, Grid, Card, Image, Badge, Group, Button, ActionIcon, Box } from '@mantine/core';
+import { IconPlayerPlay, IconHeart, IconShoppingCart } from '@tabler/icons-react';
 import Link from 'next/link';
 import styles from './page.module.css';
+import Navbar from '../components/Navbar';
 
 // Ana yemekler kategorisi renk paleti
 const categoryColor = {
@@ -199,29 +200,11 @@ const ProductCard = ({ product }) => {
 export default function AnaYemekler() {
   return (
     <div className={styles.pageContainer}>
-      <Box 
-        className={styles.header}
-        style={{
-          background: `linear-gradient(90deg, ${categoryColor.primary}, ${categoryColor.secondary})`
-        }}
-      >
-        <Container size="xl">
-          <Flex align="center" gap="md">
-            <Link href="/">
-              <ActionIcon size="lg" variant="light" color="white" className={styles.backButton}>
-                <IconArrowLeft size={20} />
-              </ActionIcon>
-            </Link>
-            <Box>
-              <Flex align="center" gap="md">
-                <Text style={{ fontSize: '2rem' }}>🍝</Text>
-                <Title className={styles.title}>Ana Yemekler</Title>
-              </Flex>
-              <Text className={styles.subtitle}>Doyurucu ve lezzetli ana yemekler</Text>
-            </Box>
-          </Flex>
-        </Container>
-      </Box>
+      <Navbar 
+        title="Ana Yemekler" 
+        categoryColors={categoryColor} 
+        styles={styles} 
+      />
 
       <Container size="xl" className={styles.container}>
         <Grid gutter={24} className={styles.productsGrid}>

@@ -5,6 +5,7 @@ import { Container, Title, Text, Paper, Button, ScrollArea, Box, Flex, Avatar, A
 import { IconArrowLeft, IconChevronRight, IconPlus, IconHome, IconChefHat, IconStar, IconShoppingCart, IconMoodSmile, IconQuestionMark, IconMeat, IconGlass, IconCake } from '@tabler/icons-react';
 import Link from 'next/link';
 import styles from './page.module.css';
+import Lottie from 'react-lottie-player';
 
 // Ana sohbet seçenekleri - her buton bir kullanıcı sorusu oluşturur
 const commonQuestions = [
@@ -711,7 +712,7 @@ export default function AIGarson() {
             </Card.Section>
 
             <Group justify="space-between" mt="sm" mb="xs">
-              <Text fw={500} size="lg">{product.name}</Text>
+              <Text fw={500} size="lg" c="white">{product.name}</Text>
               <Badge color="blue" variant="filled" size="md">{product.price}</Badge>
             </Group>
 
@@ -721,15 +722,15 @@ export default function AIGarson() {
               {product.healthy && <Badge color="green" variant="light" size="xs">Sağlıklı</Badge>}
             </Flex>
 
-            <Text size="sm" c="dimmed" lineClamp={2} className={styles.productDetails}>
+            <Text size="sm" c="white" lineClamp={2} className={styles.productDetails}>
               {product.description}
             </Text>
             
             <Flex mt="xs" mb="md" gap="sm" align="center">
-              <Text size="xs" c="dimmed" fw={500}>
+              <Text size="xs" c="white" fw={500}>
                 <span style={{ fontWeight: 'bold' }}>Kalori:</span> {product.calories} kcal
               </Text>
-              <Text size="xs" c="dimmed" fw={500}>
+              <Text size="xs" c="white" fw={500}>
                 <span style={{ fontWeight: 'bold' }}>Hazırlama:</span> {product.prepTime}
               </Text>
             </Flex>
@@ -753,136 +754,159 @@ export default function AIGarson() {
   };
 
   return (
-    <Container p={0} className={styles.container}>
-      <Paper shadow="none" radius={0} className={styles.chatContainer}>
-        <Box className={styles.header}>
-          <Flex align="center" gap="xs" justify="space-between">
-          <Flex align="center" gap="xs">
-            <Link href="/">
-              <ActionIcon size="md" variant="transparent" color="white" className={styles.backButton}>
-                <IconArrowLeft size={18} />
-              </ActionIcon>
-            </Link>
-            <Title order={2} size="h3">AI Garson</Title>
-            </Flex>
-            
-          </Flex>
-          <Flex align="center" justify="space-between">
-            <Text size="xs" c="gray.2">Siparişiniz için size yardımcı olalım</Text>
-            <Transition mounted={showCartNotification} transition="slide-down" duration={400} timingFunction="ease">
-              {(styles) => (
-                <Badge 
-                  color="green" 
-                  size="lg" 
-                  variant="filled" 
-                  leftSection={<IconShoppingCart size={16} />}
-                  style={styles}
-                  className={styles.cartBadge}
-                >
-                  {cartItems.length} ürün
-                </Badge>
-              )}
-            </Transition>
-            {cartItems.length > 0 && !showCartNotification && (
-              <Badge 
-                color="green" 
-                size="lg" 
-                variant="filled" 
-                leftSection={<IconShoppingCart size={16} />}
-              >
-                {cartItems.length} ürün
-              </Badge>
-            )}
-          </Flex>
-        </Box>
-
-        <ScrollArea className={styles.messagesContainer} scrollbarSize={4} type="hover" offsetScrollbars>
-          {messages.map((message) => (
-            <Box key={message.id} mb="lg">
-              {/* Eğer AI mesajının içeriği boş değilse göster */}
-              {(!message.isUser && message.text) && (
-              <Flex
-                  className={`${styles.message} ${styles.aiMessage}`}
-                gap="xs"
-                align="flex-start"
-              >
-                  <Avatar color="blue" radius="xl" className={styles.avatar} size="sm">AI</Avatar>
-                  <Box className={styles.messageContent}>
-                    <Text className={styles.messageText} size="sm">{message.text}</Text>
-                    <Text size="xs" c="dimmed" className={styles.timestamp}>
-                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </Text>
-                  </Box>
+    <div style={{ position: 'relative', minHeight: '100vh', background: 'linear-gradient(135deg, #181c20 0%, #23272f 100%)' }}>
+      {/* Animasyonlu robot garson arka plan */}
+      <Lottie
+        loop
+        play
+        src="https://app.lottiefiles.com/animation/91efa528-2b54-41dd-8eb5-f9f0890baf6b?panel=download"
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '100vw',
+          height: '100vh',
+          zIndex: 0,
+          opacity: 0.3,
+          pointerEvents: 'none',
+          objectFit: 'contain',
+        }}
+      />
+      {/* Sayfa içeriği */}
+      <div style={{ position: 'relative', zIndex: 2 }}>
+        <Container p={0} className={styles.container}>
+          <Paper shadow="none" radius={0} className={styles.chatContainer}>
+            <Box className={styles.header}>
+              <Flex align="center" gap="xs" justify="space-between">
+              <Flex align="center" gap="xs">
+                <Link href="/">
+                  <ActionIcon size="md" variant="transparent" color="white" className={styles.backButton}>
+                    <IconArrowLeft size={18} />
+                  </ActionIcon>
+                </Link>
+                <Title order={2} size="h3">AI Garson</Title>
                 </Flex>
-              )}
-              
-              {/* Kullanıcı mesajını her zaman göster */}
-              {message.isUser && (
-                <Flex
-                  className={`${styles.message} ${styles.userMessage}`}
-                  gap="xs"
-                  align="flex-start"
-                >
-                <Box className={styles.messageContent}>
-                  <Text className={styles.messageText} size="sm">{message.text}</Text>
-                  <Text size="xs" c="dimmed" className={styles.timestamp}>
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </Text>
-                </Box>
-                  <Avatar color="teal" radius="xl" className={styles.avatar} size="sm">Siz</Avatar>
-                </Flex>
-              )}
-              
-              {/* Özel ürün gösterimi - Önce ürün kartlarını göster */}
-              {!message.isUser && customOptions && message.id === messages.length && (
-                <Box mt="md" ml={38}>
-                  {renderProductCards(customOptions)}
-                </Box>
-              )}
-              
-              {/* Sonra butonları göster */}
-              {!message.isUser && message.buttons && message.buttons.length > 0 && (
-                <Box mt="md" ml={38}>
-                  <Group gap="sm" wrap="wrap" className={styles.responseButtons}>
-                    {message.buttons.map((btn) => (
-                      <Button
-                        key={btn.id}
-                        leftSection={btn.icon}
-                        variant="light"
-                        size="xs"
-                        className={`${styles.responseButton} ${buttonAnimation === btn.id ? styles.buttonPulse : ''}`}
-                        onClick={() => handleButtonClick(btn.id, btn.text)}
-                      >
-                        {btn.text}
-                      </Button>
-                    ))}
-                  </Group>
-                </Box>
-              )}
+                
+              </Flex>
+              <Flex align="center" justify="space-between">
+                <Text size="xs" c="gray.2">Siparişiniz için size yardımcı olalım</Text>
+                <Transition mounted={showCartNotification} transition="slide-down" duration={400} timingFunction="ease">
+                  {(styles) => (
+                    <Badge 
+                      color="green" 
+                      size="lg" 
+                      variant="filled" 
+                      leftSection={<IconShoppingCart size={16} />}
+                      style={styles}
+                      className={styles.cartBadge}
+                    >
+                      {cartItems.length} ürün
+                    </Badge>
+                  )}
+                </Transition>
+                {cartItems.length > 0 && !showCartNotification && (
+                  <Badge 
+                    color="green" 
+                    size="lg" 
+                    variant="filled" 
+                    leftSection={<IconShoppingCart size={16} />}
+                  >
+                    {cartItems.length} ürün
+                  </Badge>
+                )}
+              </Flex>
             </Box>
-          ))}
-          
-          <div ref={messagesEndRef} />
-        </ScrollArea>
 
-        {cartItems.length > 0 && (
-          <Box className={styles.cartSummary}>
-            <Flex justify="space-between" align="center">
-              <Text size="sm" fw={500}>Sepetinizde {cartItems.length} ürün bulunuyor</Text>
-              <Button
-                variant="filled"
-                color="green"
-                size="xs"
-                leftSection={<IconShoppingCart size={16} />}
-                onClick={() => handleButtonClick('view_cart', 'Sepeti görüntüle')}
-                className={`${styles.viewCartButton} ${buttonAnimation === 'view_cart' ? styles.buttonPulse : ''}`}
-              >
-                Sepeti Görüntüle
-              </Button>
-            </Flex>
-          </Box>
-        )}
-      </Paper>
-    </Container>
+            <ScrollArea className={styles.messagesContainer} scrollbarSize={4} type="hover" offsetScrollbars>
+              {messages.map((message) => (
+                <Box key={message.id} mb="lg">
+                  {/* Eğer AI mesajının içeriği boş değilse göster */}
+                  {(!message.isUser && message.text) && (
+                  <Flex
+                      className={`${styles.message} ${styles.aiMessage}`}
+                    gap="xs"
+                    align="flex-start"
+                  >
+                      <Avatar color="blue" radius="xl" className={styles.avatar} size="sm">AI</Avatar>
+                      <Box className={styles.messageContent}>
+                        <Text className={styles.messageText} size="sm">{message.text}</Text>
+                        <Text size="xs" c="dimmed" className={styles.timestamp}>
+                          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </Text>
+                      </Box>
+                    </Flex>
+                  )}
+                  
+                  {/* Kullanıcı mesajını her zaman göster */}
+                  {message.isUser && (
+                    <Flex
+                      className={`${styles.message} ${styles.userMessage}`}
+                      gap="xs"
+                      align="flex-start"
+                    >
+                    <Box className={styles.messageContent}>
+                      <Text className={styles.messageText} size="sm">{message.text}</Text>
+                      <Text size="xs" c="dimmed" className={styles.timestamp}>
+                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </Text>
+                    </Box>
+                      <Avatar color="teal" radius="xl" className={styles.avatar} size="sm">Siz</Avatar>
+                    </Flex>
+                  )}
+                  
+                  {/* Özel ürün gösterimi - Önce ürün kartlarını göster */}
+                  {!message.isUser && customOptions && message.id === messages.length && (
+                    <Box mt="md" ml={38}>
+                      {renderProductCards(customOptions)}
+                    </Box>
+                  )}
+                  
+                  {/* Sonra butonları göster */}
+                  {!message.isUser && message.buttons && message.buttons.length > 0 && (
+                    <Box mt="md" ml={38}>
+                      <Group gap="sm" wrap="wrap" className={styles.responseButtons}>
+                        {message.buttons.map((btn) => (
+                          <Button
+                            key={btn.id}
+                            leftSection={btn.icon}
+                            variant="light"
+                            size="xs"
+                            className={`${styles.responseButton} ${buttonAnimation === btn.id ? styles.buttonPulse : ''}`}
+                            onClick={() => handleButtonClick(btn.id, btn.text)}
+                          >
+                            {btn.text}
+                          </Button>
+                        ))}
+                      </Group>
+                    </Box>
+                  )}
+                </Box>
+              ))}
+              
+              <div ref={messagesEndRef} />
+            </ScrollArea>
+
+            {cartItems.length > 0 && (
+              <Box className={styles.cartSummary}>
+                <Flex justify="space-between" align="center">
+                  <Text size="sm" fw={500}>Sepetinizde {cartItems.length} ürün bulunuyor</Text>
+                  <Button
+                    variant="filled"
+                    color="green"
+                    size="xs"
+                    leftSection={<IconShoppingCart size={16} />}
+                    onClick={() => handleButtonClick('view_cart', 'Sepeti görüntüle')}
+                    className={`${styles.viewCartButton} ${buttonAnimation === 'view_cart' ? styles.buttonPulse : ''}`}
+                  >
+                    Sepeti Görüntüle
+                  </Button>
+                </Flex>
+              </Box>
+            )}
+          </Paper>
+        </Container>
+      </div>
+    </div>
   );
 } 

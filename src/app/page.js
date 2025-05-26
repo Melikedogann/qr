@@ -8,7 +8,7 @@ import styles from './page.module.css';
 
 // Kategori renk paletleri
 const categoryColors = {
-  'baslangiçlar': {
+  'baslangiclar': {
     primary: '#4CAF50',
     secondary: '#FFA726',
     background: '#E8F5E8',
@@ -59,12 +59,12 @@ const categories = [
     size: 'large'
   },
   {
-    id: 'baslangiçlar',
+    id: 'baslangiclar',
     title: 'Başlangıçlar',
     description: 'Sağlıklı ve lezzetli başlangıçlar',
     icon: '🥗',
-    route: '/baslangiçlar',
-    colors: categoryColors['baslangiçlar'],
+    route: '/baslangiclar',
+    colors: categoryColors['baslangiclar'],
     size: 'large'
   },
   {

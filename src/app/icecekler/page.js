@@ -1,17 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { Container, Title, Text, Grid, Card, Image, Badge, Group, Button, ActionIcon, Flex, Box } from '@mantine/core';
-import { IconPlayerPlay, IconArrowLeft, IconHeart, IconShoppingCart } from '@tabler/icons-react';
+import { Container, Title, Text, Grid, Card, Image, Badge, Group, Box, Flex } from '@mantine/core';
+import { IconPlayerPlay, IconArrowLeft } from '@tabler/icons-react';
 import Link from 'next/link';
 import styles from './page.module.css';
+import Navbar from '../components/Navbar';
 
-// İçecekler kategorisi renk paleti
+// İçecekler kategorisi renk paleti - daha canlı renkler
 const categoryColor = {
-  primary: '#81D4FA',
-  secondary: '#FFEB3B',
-  background: '#E3F2FD',
-  text: '#1565C0'
+  primary: '#FF4081',
+  secondary: '#00E5FF',
+  background: '#F5F5F5',
+  text: '#6200EA'
 };
 
 // İçecekler kategorisindeki ürünler
@@ -25,6 +26,7 @@ const drinks = [
     videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
     badge: 'Alkolsüz',
     badgeColor: 'blue',
+    gifUrl: 'https://media.giphy.com/media/l41m1FOKcpTAa2UVi/giphy.gif'
   },
   {
     id: 10,
@@ -35,6 +37,7 @@ const drinks = [
     videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
     badge: 'Taze',
     badgeColor: 'orange',
+    gifUrl: 'https://media.giphy.com/media/3o7TKMhxSftmZnNkqc/giphy.gif'
   },
   {
     id: 11,
@@ -45,6 +48,7 @@ const drinks = [
     videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
     badge: 'İtalyan',
     badgeColor: 'dark',
+    gifUrl: 'https://media.giphy.com/media/3jVT4U5bilspG/giphy.gif'
   },
   {
     id: 22,
@@ -55,6 +59,7 @@ const drinks = [
     videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
     badge: 'Klasik',
     badgeColor: 'brown',
+    gifUrl: 'https://media.giphy.com/media/3jVT4U5bilspG/giphy.gif'
   },
   {
     id: 23,
@@ -65,6 +70,7 @@ const drinks = [
     videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
     badge: 'Serinletici',
     badgeColor: 'lime',
+    gifUrl: 'https://media.giphy.com/media/xT0xeQblBQZJEmf8oE/giphy.gif'
   },
   {
     id: 24,
@@ -75,6 +81,7 @@ const drinks = [
     videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
     badge: 'Geleneksel',
     badgeColor: 'green',
+    gifUrl: 'https://media.giphy.com/media/3o7TKyPpWvFrpwua2I/giphy.gif'
   }
 ];
 
@@ -101,23 +108,19 @@ const VideoPlayer = ({ videoUrl, thumbnail }) => {
       ) : (
         <div className={styles.thumbnailContainer}>
           <Image src={thumbnail} alt="Video thumbnail" className={styles.thumbnail} />
-          <ActionIcon
-            size="xl"
-            radius="xl"
-            variant="filled"
-            style={{ backgroundColor: categoryColor.primary }}
+          <div
             className={styles.playButton}
             onClick={handlePlay}
           >
             <IconPlayerPlay size={24} />
-          </ActionIcon>
+          </div>
         </div>
       )}
     </div>
   );
 };
 
-// ProductCard bileşeni
+// ProductCard bileşeni - yeniden düzenlenmiş
 const ProductCard = ({ product }) => {
   const [showVideo, setShowVideo] = useState(false);
 
@@ -140,20 +143,16 @@ const ProductCard = ({ product }) => {
           <div className={styles.imageContainer}>
             <Image
               src={product.image}
-              height={180}
+              height={160} // Görsel boyutu küçültüldü
               alt={product.name}
               className={styles.productImage}
             />
-            <ActionIcon
-              size="lg"
-              radius="xl"
-              variant="filled"
-              style={{ backgroundColor: categoryColor.primary }}
+            <div
               className={styles.videoButton}
               onClick={() => setShowVideo(true)}
             >
-              <IconPlayerPlay size={20} />
-            </ActionIcon>
+              <IconPlayerPlay size={18} />
+            </div>
           </div>
         )}
       </Card.Section>
@@ -171,27 +170,9 @@ const ProductCard = ({ product }) => {
         {product.description}
       </Text>
 
-      <Group justify="space-between" mt="md">
-        <Text size="xl" fw={700} className={styles.price} style={{ color: categoryColor.primary }}>
-          {product.price} ₺
-        </Text>
-        <Group gap={8}>
-          <ActionIcon variant="default" radius="md" size="lg">
-            <IconHeart size={20} color="#ff6b6b" stroke={1.5} />
-          </ActionIcon>
-          <Button 
-            radius="md" 
-            style={{ 
-              flex: 1, 
-              backgroundColor: categoryColor.primary,
-              borderColor: categoryColor.primary
-            }}
-          >
-            <IconShoppingCart size={20} stroke={1.5} />
-            <Text ml={8}>Sepete Ekle</Text>
-          </Button>
-        </Group>
-      </Group>
+      <Text size="xl" fw={700} className={styles.price} style={{ color: categoryColor.primary }}>
+        {product.price} ₺
+      </Text>
     </Card>
   );
 };
@@ -199,29 +180,11 @@ const ProductCard = ({ product }) => {
 export default function Icecekler() {
   return (
     <div className={styles.pageContainer}>
-      <Box 
-        className={styles.header}
-        style={{
-          background: `linear-gradient(90deg, ${categoryColor.primary}, ${categoryColor.secondary})`
-        }}
-      >
-        <Container size="xl">
-          <Flex align="center" gap="md">
-            <Link href="/">
-              <ActionIcon size="lg" variant="light" color="white" className={styles.backButton}>
-                <IconArrowLeft size={20} />
-              </ActionIcon>
-            </Link>
-            <Box>
-              <Flex align="center" gap="md">
-                <Text style={{ fontSize: '2rem' }}>☕</Text>
-                <Title className={styles.title}>İçecekler</Title>
-              </Flex>
-              <Text className={styles.subtitle}>Serinletici ve enerji verici içecekler</Text>
-            </Box>
-          </Flex>
-        </Container>
-      </Box>
+      <Navbar 
+        title="İçecekler" 
+        categoryColors={categoryColor} 
+        styles={styles} 
+      />
 
       <Container size="xl" className={styles.container}>
         <Grid gutter={24} className={styles.productsGrid}>
