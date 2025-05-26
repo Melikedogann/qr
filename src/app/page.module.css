@@ -179,8 +179,12 @@ a.secondary {
   width: 100%;
   min-height: 100vh;
   background-image: 
+    -webkit-linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+    url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1920&h=1080&fit=crop&crop=center');
+  background-image: 
     linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
     url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1920&h=1080&fit=crop&crop=center');
+  -webkit-background-size: cover;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -189,6 +193,8 @@ a.secondary {
   align-items: center;
   justify-content: center;
   padding: 3rem 0;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .backgroundContainer::before {
@@ -214,6 +220,7 @@ a.secondary {
 
 .glassPanel {
   background: transparent;
+  -webkit-backdrop-filter: none;
   backdrop-filter: none;
   border-radius: 30px;
   padding: 4rem 3rem;
@@ -221,6 +228,7 @@ a.secondary {
   box-shadow: none;
   border: none;
   animation: fadeIn 1s ease-in-out;
+  transform: translate3d(0, 0, 0); /* Safari için 3D hızlandırma */
 }
 
 .sectionTitle {
@@ -344,9 +352,38 @@ a.secondary {
   position: relative;
   overflow: hidden;
   background: transparent !important;
+  -webkit-backdrop-filter: blur(10px) !important;
   backdrop-filter: blur(10px) !important;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  transform: translate3d(0, 0, 0); /* Safari için 3D hızlandırma */
+  will-change: transform; /* Performans optimizasyonu */
+}
+
+/* Kategori kartları için sol kenar çubuğu renkleri */
+.category-sef-onerileri {
+  border-left: 4px solid #FF6B35;
+  box-shadow: -5px 0 15px rgba(255, 107, 53, 0.2);
+}
+
+.category-baslangiclar {
+  border-left: 4px solid #4CAF50;
+  box-shadow: -5px 0 15px rgba(76, 175, 80, 0.2);
+}
+
+.category-ana-yemekler {
+  border-left: 4px solid #8B0000;
+  box-shadow: -5px 0 15px rgba(139, 0, 0, 0.2);
+}
+
+.category-tatlilar {
+  border-left: 4px solid #F48FB1;
+  box-shadow: -5px 0 15px rgba(244, 143, 177, 0.2);
+}
+
+.category-icecekler {
+  border-left: 4px solid #81D4FA;
+  box-shadow: -5px 0 15px rgba(129, 212, 250, 0.2);
 }
 
 .categoryCard::before {
@@ -449,7 +486,9 @@ a.secondary {
   border: 3px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
+  transform: translate3d(0, 0, 0); /* Safari için 3D hızlandırma */
 }
 
 .categoryCard:hover .categoryIcon {
@@ -506,9 +545,22 @@ a.secondary {
 
 @keyframes rotateGradient {
   0% {
+    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotateGradient {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
@@ -522,30 +574,81 @@ a.secondary {
   }
 }
 
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
+    -webkit-transform: translateY(20px);
     transform: translateY(20px);
   }
   to {
     opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+@-webkit-keyframes fadeUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(20px);
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
     transform: translateY(0);
   }
 }
 
 @keyframes pulseAI {
   0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.4);
     box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.4);
   }
   70% {
+    -webkit-box-shadow: 0 0 0 15px rgba(255, 138, 0, 0);
     box-shadow: 0 0 0 15px rgba(255, 138, 0, 0);
   }
   100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(255, 138, 0, 0);
+    box-shadow: 0 0 0 0 rgba(255, 138, 0, 0);
+  }
+}
+
+@-webkit-keyframes pulseAI {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.4);
+    box-shadow: 0 0 0 0 rgba(255, 138, 0, 0.4);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 15px rgba(255, 138, 0, 0);
+    box-shadow: 0 0 0 15px rgba(255, 138, 0, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(255, 138, 0, 0);
     box-shadow: 0 0 0 0 rgba(255, 138, 0, 0);
   }
 }
 
 @keyframes shimmerEffect {
+  0% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 100%;
+  }
+}
+
+@-webkit-keyframes shimmerEffect {
   0% {
     background-position: 100% 0%;
   }
@@ -583,8 +686,13 @@ a.secondary {
     background-attachment: scroll;
     padding: 1rem 0;
     background-image: 
+      -webkit-linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
+      url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1920&h=1080&fit=crop&crop=center');
+    background-image: 
       linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)),
       url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=1920&h=1080&fit=crop&crop=center');
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
   }
   
   .mainContainer {
@@ -643,11 +751,13 @@ a.secondary {
     min-height: 100px;
     border-radius: 16px;
     background: transparent !important;
+    -webkit-backdrop-filter: blur(10px) !important;
     backdrop-filter: blur(10px) !important;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     margin-bottom: 5px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translate3d(0, 0, 0); /* Safari için 3D hızlandırma */
   }
   
   .sefOnerilerCol .categoryCard {
@@ -661,22 +771,27 @@ a.secondary {
   /* Kategori ID'lerine göre kenar renkleri */
   .category-sef-onerileri {
     border-left: 4px solid #FF6B35 !important;
+    box-shadow: -3px 0 10px rgba(255, 107, 53, 0.2);
   }
   
-  .category-baslangiçlar {
+  .category-baslangiclar {
     border-left: 4px solid #4CAF50 !important;
+    box-shadow: -3px 0 10px rgba(76, 175, 80, 0.2);
   }
   
   .category-ana-yemekler {
     border-left: 4px solid #8B0000 !important;
+    box-shadow: -3px 0 10px rgba(139, 0, 0, 0.2);
   }
   
   .category-tatlilar {
     border-left: 4px solid #F48FB1 !important;
+    box-shadow: -3px 0 10px rgba(244, 143, 177, 0.2);
   }
   
   .category-icecekler {
     border-left: 4px solid #81D4FA !important;
+    box-shadow: -3px 0 10px rgba(129, 212, 250, 0.2);
   }
   
   .categoryIconContainer {
@@ -890,5 +1005,35 @@ a.secondary {
   .restaurantInfo .mantine-Group-root {
     flex-direction: column;
     gap: 0.5rem !important;
+  }
+}
+
+/* Safari ve Chrome için ek CSS düzeltmeleri */
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .categoryCard {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  
+  .categoryIcon {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
+  }
+}
+
+/* Safari için CSS Düzeltmeleri */
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) {
+    .categoryCard, .categoryIcon {
+      transform: translateZ(0);
+    }
+    
+    .gridItem:hover {
+      transform: translateY(-8px) translateZ(0);
+    }
+    
+    .mainSectionTitle::after, .sectionTitle::after, .categoryIntro::after {
+      transform: translateX(-50%) translateZ(0);
+    }
   }
 }

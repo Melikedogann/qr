@@ -6,6 +6,13 @@ import { IconArrowRight, IconBrandHipchat, IconStar, IconPhone, IconMapPin, Icon
 import Link from 'next/link';
 import styles from './page.module.css';
 
+// Detect Safari için kullanışlı bir fonksiyon
+const isSafari = () => {
+  if (typeof window === 'undefined') return false;
+  const ua = window.navigator.userAgent;
+  return /^((?!chrome|android).)*safari/i.test(ua);
+};
+
 // Kategori renk paletleri
 const categoryColors = {
   'baslangiclar': {
@@ -61,7 +68,7 @@ const categories = [
   {
     id: 'baslangiclar',
     title: 'Başlangıçlar',
-    description: 'Sağlıklı ve lezzetli başlangıçlar',
+    description: 'Sağlıklı, lezzetli, sıcak ve soğuk başlangıçlar',
     icon: '🥗',
     route: '/baslangiclar',
     colors: categoryColors['baslangiclar'],
@@ -101,13 +108,14 @@ const categories = [
 const CategoryCard = ({ category }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSafariBrowser, setIsSafariBrowser] = useState(false);
 
   // Yapay Zeka Garson için özel badge stili
   const badgeStyle = category.id === 'ai-garson' 
     ? { backgroundColor: '#ff8a00', color: 'white', fontWeight: 'bold' }
     : {};
     
-  // Ekran boyutunu izleme
+  // Ekran boyutunu izleme ve Safari tarayıcısını algılama
   useEffect(() => {
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -116,10 +124,20 @@ const CategoryCard = ({ category }) => {
     checkIsMobile();
     window.addEventListener('resize', checkIsMobile);
     
+    // Safari kontrolü
+    setIsSafariBrowser(isSafari());
+    
     return () => {
       window.removeEventListener('resize', checkIsMobile);
     };
   }, []);
+
+  // Safari için özel stil ayarları
+  const safariStyles = isSafariBrowser ? {
+    transform: isHovered && !isMobile ? 'translateY(-8px) translateZ(0)' : 'translateY(0) translateZ(0)',
+    WebkitTransform: isHovered && !isMobile ? 'translateY(-8px) translateZ(0)' : 'translateY(0) translateZ(0)',
+    WebkitBackdropFilter: 'blur(10px)'
+  } : {};
 
   return (
     <Link href={category.route} style={{ textDecoration: 'none', height: '100%' }}>
@@ -135,7 +153,8 @@ const CategoryCard = ({ category }) => {
           transform: isHovered && !isMobile ? 'translateY(-8px)' : 'translateY(0)',
           boxShadow: isHovered 
             ? `0 15px 30px ${category.colors.primary}30` 
-            : '0 5px 15px rgba(0, 0, 0, 0.08)'
+            : '0 5px 15px rgba(0, 0, 0, 0.08)',
+          ...safariStyles
         }}
       >
         {category.featured && (
@@ -248,11 +267,11 @@ const RestaurantInfo = () => (
 
 // Güncellenmiş bileşen: Menü Keşfetme Butonları
 const MenuExploreActions = () => (
-  <Group justify="center" mt={20} mb={40} gap="md">
+  <Group justify="center" mt={40} mb={20} gap="md">
     
     <Link href="/ai-garson" style={{ textDecoration: 'none' }}>
       <Button 
-        leftSection={<IconBrandHipchat size={18} />}
+        leftSection="🤖"
         variant="filled" 
         color="#ff8a00"
         size="md"
@@ -262,7 +281,7 @@ const MenuExploreActions = () => (
           boxShadow: '0 4px 15px rgba(255, 138, 0, 0.3)'
         }}
       >
-        🤖 AI Garson ile Konuş
+        Yapay Zeka Garson
       </Button>
     </Link>
   </Group>

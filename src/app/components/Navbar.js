@@ -1,7 +1,7 @@
 'use client';
 
-import { Box, Container, Title, Flex } from '@mantine/core';
-import { IconArrowLeft } from '@tabler/icons-react';
+import { Box, Container, Title, Flex, Text } from '@mantine/core';
+import { IconArrowLeft, IconGlass } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 const categoryIcons = {
   'Ana Yemekler': { icon: '🍝', emoji: true },
   'Başlangıçlar': { icon: '🥗', emoji: true },
-  'İçecekler': { icon: '', emoji: false }, // İçecekler için emoji kaldırıldı
+  'İçecekler': { icon: <IconGlass size={24} />, emoji: false }, // İçecekler için ikon eklendi
   'Tatlılar': { icon: '🍰', emoji: true },
 };
 
@@ -24,10 +24,8 @@ const categoryAnimations = {
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
   }),
   'İçecekler': (styles) => ({
-    background: '#111',
+    background: 'linear-gradient(45deg, #0077b6, #48cae4)',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-    position: 'relative',
-    overflow: 'hidden',
   }),
   'Tatlılar': (styles) => ({
     background: 'linear-gradient(45deg, #F48FB1, #A1887F)',
@@ -59,36 +57,26 @@ const Navbar = ({ title, categoryColors, styles }) => {
     };
   };
 
-  // İçecekler için özel rainbow efekti
-  const renderRainbowEffect = () => {
-    if (title === 'İçecekler') {
-      return <div className={styles.rainbowNavbar}></div>;
-    }
-    return null;
-  };
-
   // Kategori başlığı için özel stil
   const getTitleStyle = () => {
     if (title === 'İçecekler') {
       return {
-        fontFamily: 'Impact, Haettenschweiler, Arial Narrow Bold, sans-serif',
-        letterSpacing: '3px',
-        textTransform: 'uppercase',
+        fontFamily: 'Verdana, sans-serif',
+        textShadow: '1px 1px 3px rgba(0,0,0,0.2)',
       };
     }
     
     if (title === 'Tatlılar') {
       return {
-        fontFamily: 'Brush Script MT, cursive',
-        textShadow: '2px 2px 4px rgba(0,0,0,0.2)',
+        fontFamily: 'Verdana, sans-serif',
+        textShadow: '1px 1px 3px rgba(0,0,0,0.2)',
       };
     }
     
     if (title === 'Ana Yemekler') {
       return {
-        fontFamily: 'Georgia, serif',
-        fontWeight: 'bold',
-        textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
+        fontFamily: 'Verdana, sans-serif',
+        textShadow: '1px 1px 3px rgba(0,0,0,0.2)',
       };
     }
     
@@ -102,9 +90,17 @@ const Navbar = ({ title, categoryColors, styles }) => {
     return {};
   };
 
+  // İçecekler için açıklama
+  const getSubtitleText = () => {
+    if (title === 'Ana Yemekler') return 'Doyurucu ve lezzetli ana yemekler';
+    if (title === 'Başlangıçlar') return 'Hafif ve iştah açıcı başlangıçlar';
+    if (title === 'Tatlılar') return 'Tatlı bir son için lezzetli seçenekler';
+    if (title === 'İçecekler') return 'Ferahlatıcı içecekler ve özel karışımlar';
+    return '';
+  };
+
   return (
     <Box className={styles.header} style={getNavbarStyle()}>
-      {renderRainbowEffect()}
       <Container size="xl">
         <Flex align="center" justify="center" gap="md">
           <Link href="/" style={{ position: 'absolute', left: '20px' }}>
@@ -113,21 +109,21 @@ const Navbar = ({ title, categoryColors, styles }) => {
             </div>
           </Link>
           <Box>
-            <Flex align="center" gap="md">
-              {categoryIcons[title]?.emoji && (
+            <Flex align="center" gap="md" justify="center">
+              {categoryIcons[title]?.emoji ? (
                 <span style={{ fontSize: '2rem' }}>{categoryIcons[title].icon}</span>
+              ) : (
+                categoryIcons[title]?.icon && (
+                  <Box style={{ color: 'white' }}>{categoryIcons[title].icon}</Box>
+                )
               )}
               <Title className={styles.title} style={getTitleStyle()}>
                 {title}
               </Title>
             </Flex>
-            {title !== 'İçecekler' && (
-              <div className={styles.subtitle}>
-                {title === 'Ana Yemekler' && 'Doyurucu ve lezzetli ana yemekler'}
-                {title === 'Başlangıçlar' && 'Hafif ve iştah açıcı başlangıçlar'}
-                {title === 'Tatlılar' && 'Tatlı bir son için lezzetli seçenekler'}
-              </div>
-            )}
+            <Text className={styles.subtitle} align="center">
+              {getSubtitleText()}
+            </Text>
           </Box>
         </Flex>
       </Container>

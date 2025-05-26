@@ -1,18 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { Container, Title, Text, Grid, Card, Image, Badge, Group, Box, Flex } from '@mantine/core';
-import { IconPlayerPlay, IconArrowLeft } from '@tabler/icons-react';
+import { Container, Text, Grid, Card, Image, Badge, Group, Button, ActionIcon, Box } from '@mantine/core';
+import { IconPlayerPlay, IconShoppingCart } from '@tabler/icons-react';
 import Link from 'next/link';
 import styles from './page.module.css';
 import Navbar from '../components/Navbar';
 
-// İçecekler kategorisi renk paleti - daha canlı renkler
+// İçecekler kategorisi renk paleti
 const categoryColor = {
-  primary: '#FF4081',
-  secondary: '#00E5FF',
-  background: '#F5F5F5',
-  text: '#6200EA'
+  primary: '#0077b6',
+  secondary: '#48cae4',
+  background: '#f0f8ff',
+  text: '#023e8a'
 };
 
 // İçecekler kategorisindeki ürünler
@@ -69,7 +69,7 @@ const drinks = [
     image: 'https://images.unsplash.com/photo-1523371683702-1c2eb0d8b4b6?w=400&h=300&fit=crop&crop=center',
     videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
     badge: 'Serinletici',
-    badgeColor: 'lime',
+    badgeColor: 'green',
     gifUrl: 'https://media.giphy.com/media/xT0xeQblBQZJEmf8oE/giphy.gif'
   },
   {
@@ -80,7 +80,7 @@ const drinks = [
     image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&h=300&fit=crop&crop=center',
     videoUrl: 'https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4',
     badge: 'Geleneksel',
-    badgeColor: 'green',
+    badgeColor: 'teal',
     gifUrl: 'https://media.giphy.com/media/3o7TKyPpWvFrpwua2I/giphy.gif'
   }
 ];
@@ -108,19 +108,23 @@ const VideoPlayer = ({ videoUrl, thumbnail }) => {
       ) : (
         <div className={styles.thumbnailContainer}>
           <Image src={thumbnail} alt="Video thumbnail" className={styles.thumbnail} />
-          <div
+          <ActionIcon
+            size="xl"
+            radius="xl"
+            variant="filled"
+            style={{ backgroundColor: categoryColor.primary }}
             className={styles.playButton}
             onClick={handlePlay}
           >
             <IconPlayerPlay size={24} />
-          </div>
+          </ActionIcon>
         </div>
       )}
     </div>
   );
 };
 
-// ProductCard bileşeni - yeniden düzenlenmiş
+// ProductCard bileşeni
 const ProductCard = ({ product }) => {
   const [showVideo, setShowVideo] = useState(false);
 
@@ -129,7 +133,6 @@ const ProductCard = ({ product }) => {
       shadow="sm" 
       p="lg" 
       radius="md" 
-      withBorder 
       className={styles.productCard}
       style={{
         borderTop: `4px solid ${categoryColor.primary}`,
@@ -143,16 +146,20 @@ const ProductCard = ({ product }) => {
           <div className={styles.imageContainer}>
             <Image
               src={product.image}
-              height={160} // Görsel boyutu küçültüldü
+              height={180}
               alt={product.name}
               className={styles.productImage}
             />
-            <div
+            <ActionIcon
+              size="lg"
+              radius="xl"
+              variant="filled"
+              style={{ backgroundColor: categoryColor.primary }}
               className={styles.videoButton}
               onClick={() => setShowVideo(true)}
             >
-              <IconPlayerPlay size={18} />
-            </div>
+              <IconPlayerPlay size={20} />
+            </ActionIcon>
           </div>
         )}
       </Card.Section>
@@ -170,9 +177,24 @@ const ProductCard = ({ product }) => {
         {product.description}
       </Text>
 
-      <Text size="xl" fw={700} className={styles.price} style={{ color: categoryColor.primary }}>
-        {product.price} ₺
-      </Text>
+      <Group justify="space-between" mt="md">
+        <Text size="xl" fw={700} className={styles.price} style={{ color: categoryColor.primary }}>
+          {product.price} ₺
+        </Text>
+        <Group gap={8}>
+          <Button 
+            radius="md" 
+            style={{ 
+              flex: 1, 
+              backgroundColor: categoryColor.primary,
+              borderColor: categoryColor.primary
+            }}
+          >
+            <IconShoppingCart size={20} stroke={1.5} />
+            <Text ml={8}>Sepete Ekle</Text>
+          </Button>
+        </Group>
+      </Group>
     </Card>
   );
 };

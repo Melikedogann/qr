@@ -5,7 +5,6 @@ import { Container, Title, Text, Paper, Button, ScrollArea, Box, Flex, Avatar, A
 import { IconArrowLeft, IconChevronRight, IconPlus, IconHome, IconChefHat, IconStar, IconShoppingCart, IconMoodSmile, IconQuestionMark, IconMeat, IconGlass, IconCake } from '@tabler/icons-react';
 import Link from 'next/link';
 import styles from './page.module.css';
-import Lottie from 'react-lottie-player';
 
 // Ana sohbet seçenekleri - her buton bir kullanıcı sorusu oluşturur
 const commonQuestions = [
@@ -221,7 +220,7 @@ export default function AIGarson() {
     switch(true) {
       // Direkt kategori menüleri için case'ler
       case questionId === 'baslangiçlar_menu':
-        aiResponse = '';
+        aiResponse = 'Başlangıçlar menüsü:';
         setActiveCategory(categories.find(c => c.id === 'baslangiçlar'));
         
         // Tüm başlangıç ürünlerini birleştir
@@ -235,13 +234,13 @@ export default function AIGarson() {
         setViewMode('products');
         
         responseButtons = [
-          { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
 
       case questionId === 'ana_yemekler_menu':
-        aiResponse = '';
+        aiResponse = 'Ana Yemekler menüsü:';
         setActiveCategory(categories.find(c => c.id === 'yemekler'));
         
         // Tüm ana yemekleri birleştir
@@ -257,13 +256,13 @@ export default function AIGarson() {
         setViewMode('products');
         
         responseButtons = [
-          { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
       case questionId === 'tatlilar_menu':
-        aiResponse = '';
+        aiResponse = 'Tatlılar menüsü:';
         setActiveCategory(categories.find(c => c.id === 'tatlilar'));
         
         // Tüm tatlıları birleştir
@@ -278,13 +277,13 @@ export default function AIGarson() {
         setViewMode('products');
         
         responseButtons = [
-          { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
       case questionId === 'icecekler_menu':
-        aiResponse = '';
+        aiResponse = 'İçecekler menüsü:';
         setActiveCategory(categories.find(c => c.id === 'icecekler'));
         
         // Tüm içecekleri birleştir
@@ -298,12 +297,12 @@ export default function AIGarson() {
         setViewMode('products');
         
         responseButtons = [
-          { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
-      case questionId === 'menu':
+      case questionId === 'menu' || questionId === 'menu_categories':
         aiResponse = 'Menümüzden seçim yapabilirsiniz:';
         setViewMode('categories');
         // Menü göster ile ilgili butonlar
@@ -313,26 +312,26 @@ export default function AIGarson() {
             text: cat.name, 
             icon: cat.icon 
           })),
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
       case questionId === 'recommendations':
-        aiResponse = '';
+        aiResponse = 'Şef önerilerimiz:';
         setCustomOptions(chefSpecials);
         responseButtons = [
           { id: 'see_all_specials', text: 'Tüm şef önerilerini göster', icon: <IconChefHat size={16} /> },
-          { id: 'menu', text: 'Menüye Git', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
       case questionId === 'popular':
-        aiResponse = '';
+        aiResponse = 'En popüler ürünlerimiz:';
         setCustomOptions(popularProducts);
         responseButtons = [
-          { id: 'menu', text: 'Menüye Git', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -342,7 +341,7 @@ export default function AIGarson() {
           { id: 'ask_allergies', text: 'Alerjisi olanlar için öneriler', icon: <IconQuestionMark size={16} /> },
           { id: 'ask_time', text: 'Servis süresi ne kadar?', icon: <IconQuestionMark size={16} /> },
           { id: 'ask_vegan', text: 'Vegan seçenekler var mı?', icon: <IconQuestionMark size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -357,13 +356,16 @@ export default function AIGarson() {
         ];
         setCustomOptions(null);
         setViewMode('welcome');
+        // Ana sayfaya döndüğümüzde tüm aktif kategori ve alt kategori seçimlerini sıfırla
+        setActiveCategory(null);
+        setActiveSubcategory(null);
         break;
         
       case questionId === 'ask_allergies':
         aiResponse = 'Alerjisi olan misafirlerimiz için özel menümüz mevcut. Lütfen sipariş vermeden önce alerjilerinizi belirtiniz. Size uygun alternatifler sunabiliriz.';
         responseButtons = [
           { id: 'ask', text: 'Başka bir soru sormak istiyorum', icon: <IconQuestionMark size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -371,25 +373,25 @@ export default function AIGarson() {
         aiResponse = 'Siparişlerimiz ortalama 20-25 dakika içerisinde hazırlanıp servis edilmektedir. Yoğunluğa göre bu süre değişebilir.';
         responseButtons = [
           { id: 'ask', text: 'Başka bir soru sormak istiyorum', icon: <IconQuestionMark size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
       case questionId === 'ask_vegan':
         aiResponse = 'Evet, vegan misafirlerimiz için özel seçeneklerimiz mevcut. Vejetaryen kategorimizde bulabilirsiniz.';
         responseButtons = [
-          { id: 'menu', text: 'Menüyü Göster', icon: <IconHome size={16} /> },
+          { id: 'menu_categories', text: 'Kategorileri Göster', icon: <IconHome size={16} /> },
           { id: 'ask', text: 'Başka bir soru sormak istiyorum', icon: <IconQuestionMark size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
       case questionId === 'see_all_specials':
-        aiResponse = '';
+        aiResponse = 'Tüm şef önerilerimiz:';
         setCustomOptions(chefSpecials);
         responseButtons = [
-          { id: 'menu', text: 'Menüye Git', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -414,15 +416,15 @@ export default function AIGarson() {
           
           responseButtons = [
             { id: `add_to_cart_${productDetail.id}`, text: 'Sepete Ekle', icon: <IconPlus size={16} /> },
-            { id: 'back_to_products', text: 'Ürünlere Dön', icon: <IconArrowLeft size={16} /> },
-            { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+            { id: 'back_to_products', text: 'Ürün Listesine Dön', icon: <IconArrowLeft size={16} /> },
+            { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> }
           ];
         }
         break;
         
       // Ürünlere geri dönüş
       case questionId === 'back_to_products':
-        aiResponse = '';
+        aiResponse = 'Ürün listesi:';
         
         // En son gösterilen ürünleri tekrar göster
         if (activeCategory) {
@@ -467,9 +469,11 @@ export default function AIGarson() {
           setCustomOptions(allCategoryProducts);
           setViewMode('products');
           
+          // Alt kategoriye gitme seçeneği ekleyelim
           responseButtons = [
-            { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
-            { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+            { id: `subcategories_${activeCategory.id}`, text: 'Alt Kategorileri Göster', icon: <IconChevronRight size={16} /> },
+            { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+            { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
           ];
         } else {
           // Eğer aktif kategori yoksa ana menüye dön
@@ -494,8 +498,8 @@ export default function AIGarson() {
           
           responseButtons = [
             { id: 'view_cart', text: 'Sepeti Görüntüle', icon: <IconShoppingCart size={16} /> },
-            { id: 'menu', text: 'Menüye Devam Et', icon: <IconHome size={16} /> },
-            { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+            { id: 'back_to_products', text: 'Ürün Listesine Dön', icon: <IconArrowLeft size={16} /> },
+            { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> }
           ];
         }
         break;
@@ -518,8 +522,8 @@ export default function AIGarson() {
           
           responseButtons = [
             { id: 'complete_order', text: 'Siparişi Tamamla', icon: <IconShoppingCart size={16} /> },
-            { id: 'menu', text: 'Alışverişe Devam Et', icon: <IconHome size={16} /> },
-            { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+            { id: 'back_to_products', text: 'Alışverişe Devam Et', icon: <IconArrowLeft size={16} /> },
+            { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> }
           ];
         }
         break;
@@ -529,7 +533,7 @@ export default function AIGarson() {
         aiResponse = 'Siparişiniz alındı! Teşekkür ederiz. Yemeğiniz en kısa sürede hazırlanacak.';
         setCartItems([]);
         responseButtons = [
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -538,7 +542,7 @@ export default function AIGarson() {
         const categoryId = questionId.replace('back_to_', '');
         const category = categories.find(c => c.id === categoryId);
         
-        aiResponse = '';
+        aiResponse = `${category ? category.name : 'Kategori'} alt kategorileri:`;
         setViewMode('subcategories');
         setCustomOptions(null);
         
@@ -548,8 +552,8 @@ export default function AIGarson() {
             text: subcat.name, 
             icon: <IconChevronRight size={16} /> 
           })),
-          { id: 'menu', text: 'Diğer Kategorilere Bak', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -559,7 +563,7 @@ export default function AIGarson() {
         const selectedCategory = categories.find(c => c.id === catId);
         setActiveCategory(selectedCategory);
         
-        aiResponse = '';
+        aiResponse = `${selectedCategory ? selectedCategory.name : 'Kategori'} ürünleri:`;
         
         // Kategori seçimine göre doğrudan tüm ürünleri göster
         let allCategoryProducts = [];
@@ -606,8 +610,8 @@ export default function AIGarson() {
         // Alt kategoriye gitme seçeneği de ekleyelim
         responseButtons = [
           { id: `subcategories_${catId}`, text: 'Alt Kategorileri Göster', icon: <IconChevronRight size={16} /> },
-          { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -617,7 +621,7 @@ export default function AIGarson() {
         const subCategory = categories.find(c => c.id === subCategoryId);
         setActiveCategory(subCategory);
         
-        aiResponse = '';
+        aiResponse = `${subCategory ? subCategory.name : 'Kategori'} alt kategorileri:`;
         setViewMode('subcategories');
         
         responseButtons = [
@@ -626,8 +630,8 @@ export default function AIGarson() {
             text: subcat.name, 
             icon: <IconChevronRight size={16} /> 
           })),
-          { id: 'menu', text: 'Diğer Kategorilere Bak', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -637,7 +641,7 @@ export default function AIGarson() {
         const subcategory = Object.values(subcategories).flat().find(s => s.id === subcategoryId);
         
         setActiveSubcategory(subcategory);
-        aiResponse = '';
+        aiResponse = `${subcategory ? subcategory.name : 'Alt kategori'} ürünleri:`;
         setViewMode('products');
         
         // Ürünleri doğru subcategory ID'sine göre ayarla
@@ -645,9 +649,9 @@ export default function AIGarson() {
         setCustomOptions(subcategoryProducts);
         
         responseButtons = [
-          { id: `back_to_${activeCategory.id}`, text: 'Kategoriye Dön', icon: <IconArrowLeft size={16} /> },
-          { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: `back_to_${activeCategory.id}`, text: `${activeCategory ? activeCategory.name : 'Kategori'} Alt Kategorilerine Dön`, icon: <IconArrowLeft size={16} /> },
+          { id: 'menu_categories', text: 'Ana Kategorilere Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
         
@@ -656,7 +660,7 @@ export default function AIGarson() {
         aiResponse = 'Size nasıl yardımcı olabilirim?';
         responseButtons = [
           ...commonQuestions,
-          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          { id: 'back_main', text: 'Ana Sayfaya Dön', icon: <IconHome size={16} /> }
         ];
         break;
     }
@@ -712,7 +716,7 @@ export default function AIGarson() {
             </Card.Section>
 
             <Group justify="space-between" mt="sm" mb="xs">
-              <Text fw={500} size="lg" c="white">{product.name}</Text>
+              <Text fw={500} size="lg">{product.name}</Text>
               <Badge color="blue" variant="filled" size="md">{product.price}</Badge>
             </Group>
 
@@ -722,15 +726,15 @@ export default function AIGarson() {
               {product.healthy && <Badge color="green" variant="light" size="xs">Sağlıklı</Badge>}
             </Flex>
 
-            <Text size="sm" c="white" lineClamp={2} className={styles.productDetails}>
+            <Text size="sm" c="dimmed" lineClamp={2} className={styles.productDetails}>
               {product.description}
             </Text>
             
             <Flex mt="xs" mb="md" gap="sm" align="center">
-              <Text size="xs" c="white" fw={500}>
+              <Text size="xs" c="dimmed" fw={500}>
                 <span style={{ fontWeight: 'bold' }}>Kalori:</span> {product.calories} kcal
               </Text>
-              <Text size="xs" c="white" fw={500}>
+              <Text size="xs" c="dimmed" fw={500}>
                 <span style={{ fontWeight: 'bold' }}>Hazırlama:</span> {product.prepTime}
               </Text>
             </Flex>
@@ -754,159 +758,136 @@ export default function AIGarson() {
   };
 
   return (
-    <div style={{ position: 'relative', minHeight: '100vh', background: 'linear-gradient(135deg, #181c20 0%, #23272f 100%)' }}>
-      {/* Animasyonlu robot garson arka plan */}
-      <Lottie
-        loop
-        play
-        src="https://app.lottiefiles.com/animation/91efa528-2b54-41dd-8eb5-f9f0890baf6b?panel=download"
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '100vw',
-          height: '100vh',
-          zIndex: 0,
-          opacity: 0.3,
-          pointerEvents: 'none',
-          objectFit: 'contain',
-        }}
-      />
-      {/* Sayfa içeriği */}
-      <div style={{ position: 'relative', zIndex: 2 }}>
-        <Container p={0} className={styles.container}>
-          <Paper shadow="none" radius={0} className={styles.chatContainer}>
-            <Box className={styles.header}>
-              <Flex align="center" gap="xs" justify="space-between">
-              <Flex align="center" gap="xs">
-                <Link href="/">
-                  <ActionIcon size="md" variant="transparent" color="white" className={styles.backButton}>
-                    <IconArrowLeft size={18} />
-                  </ActionIcon>
-                </Link>
-                <Title order={2} size="h3">AI Garson</Title>
-                </Flex>
-                
-              </Flex>
-              <Flex align="center" justify="space-between">
-                <Text size="xs" c="gray.2">Siparişiniz için size yardımcı olalım</Text>
-                <Transition mounted={showCartNotification} transition="slide-down" duration={400} timingFunction="ease">
-                  {(styles) => (
-                    <Badge 
-                      color="green" 
-                      size="lg" 
-                      variant="filled" 
-                      leftSection={<IconShoppingCart size={16} />}
-                      style={styles}
-                      className={styles.cartBadge}
-                    >
-                      {cartItems.length} ürün
-                    </Badge>
-                  )}
-                </Transition>
-                {cartItems.length > 0 && !showCartNotification && (
-                  <Badge 
-                    color="green" 
-                    size="lg" 
-                    variant="filled" 
-                    leftSection={<IconShoppingCart size={16} />}
-                  >
-                    {cartItems.length} ürün
-                  </Badge>
-                )}
-              </Flex>
-            </Box>
-
-            <ScrollArea className={styles.messagesContainer} scrollbarSize={4} type="hover" offsetScrollbars>
-              {messages.map((message) => (
-                <Box key={message.id} mb="lg">
-                  {/* Eğer AI mesajının içeriği boş değilse göster */}
-                  {(!message.isUser && message.text) && (
-                  <Flex
-                      className={`${styles.message} ${styles.aiMessage}`}
-                    gap="xs"
-                    align="flex-start"
-                  >
-                      <Avatar color="blue" radius="xl" className={styles.avatar} size="sm">AI</Avatar>
-                      <Box className={styles.messageContent}>
-                        <Text className={styles.messageText} size="sm">{message.text}</Text>
-                        <Text size="xs" c="dimmed" className={styles.timestamp}>
-                          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </Text>
-                      </Box>
-                    </Flex>
-                  )}
-                  
-                  {/* Kullanıcı mesajını her zaman göster */}
-                  {message.isUser && (
-                    <Flex
-                      className={`${styles.message} ${styles.userMessage}`}
-                      gap="xs"
-                      align="flex-start"
-                    >
-                    <Box className={styles.messageContent}>
-                      <Text className={styles.messageText} size="sm">{message.text}</Text>
-                      <Text size="xs" c="dimmed" className={styles.timestamp}>
-                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </Text>
-                    </Box>
-                      <Avatar color="teal" radius="xl" className={styles.avatar} size="sm">Siz</Avatar>
-                    </Flex>
-                  )}
-                  
-                  {/* Özel ürün gösterimi - Önce ürün kartlarını göster */}
-                  {!message.isUser && customOptions && message.id === messages.length && (
-                    <Box mt="md" ml={38}>
-                      {renderProductCards(customOptions)}
-                    </Box>
-                  )}
-                  
-                  {/* Sonra butonları göster */}
-                  {!message.isUser && message.buttons && message.buttons.length > 0 && (
-                    <Box mt="md" ml={38}>
-                      <Group gap="sm" wrap="wrap" className={styles.responseButtons}>
-                        {message.buttons.map((btn) => (
-                          <Button
-                            key={btn.id}
-                            leftSection={btn.icon}
-                            variant="light"
-                            size="xs"
-                            className={`${styles.responseButton} ${buttonAnimation === btn.id ? styles.buttonPulse : ''}`}
-                            onClick={() => handleButtonClick(btn.id, btn.text)}
-                          >
-                            {btn.text}
-                          </Button>
-                        ))}
-                      </Group>
-                    </Box>
-                  )}
-                </Box>
-              ))}
-              
-              <div ref={messagesEndRef} />
-            </ScrollArea>
-
-            {cartItems.length > 0 && (
-              <Box className={styles.cartSummary}>
-                <Flex justify="space-between" align="center">
-                  <Text size="sm" fw={500}>Sepetinizde {cartItems.length} ürün bulunuyor</Text>
-                  <Button
-                    variant="filled"
-                    color="green"
-                    size="xs"
-                    leftSection={<IconShoppingCart size={16} />}
-                    onClick={() => handleButtonClick('view_cart', 'Sepeti görüntüle')}
-                    className={`${styles.viewCartButton} ${buttonAnimation === 'view_cart' ? styles.buttonPulse : ''}`}
-                  >
-                    Sepeti Görüntüle
-                  </Button>
-                </Flex>
-              </Box>
+    <Container p={0} className={styles.container}>
+      <Paper shadow="none" radius={0} className={styles.chatContainer}>
+        <Box className={styles.header}>
+          <Flex align="center" gap="xs" justify="space-between">
+          <Flex align="center" gap="xs">
+            <Link href="/">
+              <ActionIcon size="md" variant="transparent" color="white" className={styles.backButton}>
+                <IconArrowLeft size={18} />
+              </ActionIcon>
+            </Link>
+            <Title order={2} size="h3">AI Garson</Title>
+            </Flex>
+            
+          </Flex>
+          <Flex align="center" justify="space-between">
+            <Text size="xs" c="gray.2">Siparişiniz için size yardımcı olalım</Text>
+            <Transition mounted={showCartNotification} transition="slide-down" duration={400} timingFunction="ease">
+              {(styles) => (
+                <Badge 
+                  color="green" 
+                  size="lg" 
+                  variant="filled" 
+                  leftSection={<IconShoppingCart size={16} />}
+                  style={styles}
+                  className={styles.cartBadge}
+                >
+                  {cartItems.length} ürün
+                </Badge>
+              )}
+            </Transition>
+            {cartItems.length > 0 && !showCartNotification && (
+              <Badge 
+                color="green" 
+                size="lg" 
+                variant="filled" 
+                leftSection={<IconShoppingCart size={16} />}
+              >
+                {cartItems.length} ürün
+              </Badge>
             )}
-          </Paper>
-        </Container>
-      </div>
-    </div>
+          </Flex>
+        </Box>
+
+        <ScrollArea className={styles.messagesContainer} scrollbarSize={4} type="hover" offsetScrollbars>
+          {messages.map((message) => (
+            <Box key={message.id} mb="lg">
+              {/* Eğer AI mesajının içeriği boş değilse göster */}
+              {(!message.isUser && message.text) && (
+              <Flex
+                  className={`${styles.message} ${styles.aiMessage}`}
+                gap="xs"
+                align="flex-start"
+              >
+                  <Avatar color="blue" radius="xl" className={styles.avatar} size="sm">AI</Avatar>
+                  <Box className={styles.messageContent}>
+                    <Text className={styles.messageText} size="sm">{message.text}</Text>
+                    <Text size="xs" c="dimmed" className={styles.timestamp}>
+                      {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </Text>
+                  </Box>
+                </Flex>
+              )}
+              
+              {/* Kullanıcı mesajını her zaman göster */}
+              {message.isUser && (
+                <Flex
+                  className={`${styles.message} ${styles.userMessage}`}
+                  gap="xs"
+                  align="flex-start"
+                >
+                <Box className={styles.messageContent}>
+                  <Text className={styles.messageText} size="sm">{message.text}</Text>
+                  <Text size="xs" c="dimmed" className={styles.timestamp}>
+                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </Text>
+                </Box>
+                  <Avatar color="teal" radius="xl" className={styles.avatar} size="sm">Siz</Avatar>
+                </Flex>
+              )}
+              
+              {/* Özel ürün gösterimi - Önce ürün kartlarını göster */}
+              {!message.isUser && customOptions && message.id === messages.length && (
+                <Box mt="md" ml={38}>
+                  {renderProductCards(customOptions)}
+                </Box>
+              )}
+              
+              {/* Sonra butonları göster */}
+              {!message.isUser && message.buttons && message.buttons.length > 0 && (
+                <Box mt="md" ml={38}>
+                  <Group gap="sm" wrap="wrap" className={styles.responseButtons}>
+                    {message.buttons.map((btn) => (
+                      <Button
+                        key={btn.id}
+                        leftSection={btn.icon}
+                        variant="light"
+                        size="xs"
+                        className={`${styles.responseButton} ${buttonAnimation === btn.id ? styles.buttonPulse : ''}`}
+                        onClick={() => handleButtonClick(btn.id, btn.text)}
+                      >
+                        {btn.text}
+                      </Button>
+                    ))}
+                  </Group>
+                </Box>
+              )}
+            </Box>
+          ))}
+          
+          <div ref={messagesEndRef} />
+        </ScrollArea>
+
+        {cartItems.length > 0 && (
+          <Box className={styles.cartSummary}>
+            <Flex justify="space-between" align="center">
+              <Text size="sm" fw={500}>Sepetinizde {cartItems.length} ürün bulunuyor</Text>
+              <Button
+                variant="filled"
+                color="green"
+                size="xs"
+                leftSection={<IconShoppingCart size={16} />}
+                onClick={() => handleButtonClick('view_cart', 'Sepeti görüntüle')}
+                className={`${styles.viewCartButton} ${buttonAnimation === 'view_cart' ? styles.buttonPulse : ''}`}
+              >
+                Sepeti Görüntüle
+              </Button>
+            </Flex>
+          </Box>
+        )}
+      </Paper>
+    </Container>
   );
 } 

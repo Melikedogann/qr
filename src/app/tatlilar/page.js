@@ -126,8 +126,7 @@ const ProductCard = ({ product }) => {
     <Card 
       shadow="sm" 
       p="lg" 
-      radius="md" 
-      withBorder 
+      radius="md"
       className={styles.productCard}
       style={{
         borderTop: `4px solid ${categoryColor.primary}`,
@@ -177,9 +176,9 @@ const ProductCard = ({ product }) => {
           {product.price} ₺
         </Text>
         <Group gap={8}>
-          <ActionIcon variant="default" radius="md" size="lg">
+          {/*<ActionIcon variant="default" radius="md" size="lg">
             <IconHeart size={20} color="#ff6b6b" stroke={1.5} />
-          </ActionIcon>
+          </ActionIcon>*/}
           <Button 
             radius="md" 
             style={{ 
