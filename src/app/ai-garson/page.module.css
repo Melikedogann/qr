@@ -1,3 +1,36 @@
+/* Glassmorphism ve mikro etkileşimler için temel değişkenler */
+.globalVars {
+  --glass-bg: rgba(42, 42, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-blur: 10px;
+  --primary-color: #ff8a00;
+  --secondary-color: #e65c00;
+  --dark-bg: #1e1e1e;
+  --card-bg: #2a2a2a;
+  --text-light: #eaeaea;
+  --text-dim: #b8b8b8;
+  --border-color: #3d3d3d;
+  --animation-duration: 0.3s;
+}
+
+/* Buton animasyonları */
+.buttonPulse {
+  animation: pulse 0.3s ease-out;
+}
+
+.backButton {
+  transition: transform 0.2s ease;
+}
+
+.backButton:hover {
+  transform: translateX(-3px);
+}
+
+.cartBadge {
+  animation: bounce 0.5s ease-out;
+}
+
 .container {
   display: flex;
   justify-content: center;
@@ -16,19 +49,23 @@
   overflow: hidden;
   border: none;
   border-radius: 0;
-  background-color: #2a2a2a;
+  background-color: #1e1e1e;
   box-shadow: none;
 }
 
 .header {
   padding: 1.2rem 1rem 0.7rem 1rem;
   border-bottom: 1px solid #3d3d3d;
-  background: linear-gradient(90deg, #2a2a2a 60%, #3d3d3d 100%);
+  background: linear-gradient(90deg, rgba(42, 42, 42, 0.8) 60%, rgba(61, 61, 61, 0.8) 100%);
   color: #fff;
   border-radius: 0;
   position: sticky;
   top: 0;
   z-index: 20;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .messagesContainer {
@@ -70,10 +107,13 @@
 }
 
 .aiMessage .messageContent {
-  background: #2a2a2a;
+  background: rgba(42, 42, 42, 0.7);
   color: #eaeaea;
   border-top-left-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .messageText {
@@ -100,6 +140,11 @@
   color: #fff;
   font-weight: bold;
   font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.avatar:hover {
+  transform: scale(1.1);
 }
 
 .inputContainer {
@@ -116,7 +161,7 @@
   border-radius: 25px;
   background-color: #2a2a2a;
   color: #fff;
-  border: 1px solid #4d4d4d;
+  border: 1px solid #3d3d3d;
 }
 
 .input input {
@@ -138,18 +183,20 @@
   text-align: center;
   border-radius: 14px;
   overflow: hidden;
-  background: #2a2a2a;
+  background: rgba(42, 42, 42, 0.7);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-  border: 1px solid #4d4d4d;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1rem 0.5rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .categoryCard:hover {
   transform: translateY(-5px) scale(1.03);
   box-shadow: 0 8px 20px rgba(255,138,0,0.18);
   border-color: #ff8a00;
-  background: #333333;
+  background: rgba(51, 51, 51, 0.8);
 }
 
 /* Ürün kartları için stiller */
@@ -159,8 +206,11 @@
   height: 100%;
   transition: all 0.3s ease;
   overflow: hidden;
-  background-color: #2a2a2a;
-  border-color: #3d3d3d;
+  background: rgba(42, 42, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .productCard:hover {
@@ -201,16 +251,23 @@
 }
 
 .actionButton {
-  transition: all 0.2s ease;
-  background-color: #3d3d3d;
+  transition: all 0.3s ease;
+  background: rgba(61, 61, 61, 0.7);
   color: #fff;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .actionButton:hover {
   transform: translateY(-2px);
   background-color: #ff8a00;
   color: #fff;
+  box-shadow: 0 5px 15px rgba(255, 138, 0, 0.3);
+}
+
+.actionButton:active {
+  transform: translateY(0);
 }
 
 .price {
@@ -223,22 +280,31 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #2a2a2a;
-  border-top: 1px solid #3d3d3d;
+  background: rgba(42, 42, 42, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 10px 15px;
   z-index: 10;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .viewCartButton {
-  transition: all 0.2s ease;
-  background-color: #ff8a00;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #ff8a00 0%, #e65c00 100%);
   color: #fff;
+  position: relative;
+  overflow: hidden;
 }
 
 .viewCartButton:hover {
   transform: translateY(-2px);
   filter: brightness(1.1);
+  box-shadow: 0 5px 15px rgba(255, 138, 0, 0.3);
+}
+
+.viewCartButton:active {
+  transform: translateY(0);
 }
 
 /* Claude benzeri yanıt butonları */
@@ -250,32 +316,30 @@
 }
 
 .responseButton {
-  background: #2a2a2a;
+  background: rgba(42, 42, 42, 0.7);
   color: #ff8a00;
-  border: 1px solid #4d4d4d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 25px;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   font-size: 0.85rem;
   font-weight: 500;
   padding: 0.4rem 0.8rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
 }
 
 .responseButton:hover {
-  background: #333333;
+  background: rgba(51, 51, 51, 0.8);
   border-color: #ff8a00;
   transform: translateY(-2px);
   box-shadow: 0 3px 8px rgba(255,138,0,0.25);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.responseButton:active {
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
@@ -290,12 +354,14 @@
     max-width: 85%;
   }
   .responseButtons {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100%;
   }
   .responseButton {
-    width: 100%;
+    width: auto;
     text-align: left;
+    margin-bottom: 8px;
   }
   .header {
     padding: 15px;
@@ -303,20 +369,14 @@
   
   .messagesContainer {
     height: calc(100vh - 160px);
-  }
-  
-  .responseButtons {
-    flex-wrap: wrap;
-  }
-  
-  .responseButton {
-    margin-bottom: 8px;
+    padding: 1rem 0.5rem;
   }
 }
 
 @media (max-width: 480px) {
   .header {
     padding: 0.8rem 1rem;
+    background: rgba(42, 42, 42, 0.85);
   }
   .header h2 {
     font-size: 1.3rem;
@@ -331,12 +391,25 @@
     flex-direction: column;
     gap: 0.5rem;
   }
+  
+  .productCard {
+    margin-bottom: 15px;
+  }
+  
+  .responseButton {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .cartSummary {
+    padding: 12px;
+  }
 }
 
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .cartSummary {
-    background-color: #1A1B1E;
-    border-color: #2C2E33;
+    background: rgba(26, 27, 30, 0.85);
+    border-color: rgba(44, 46, 51, 0.5);
   }
 } 

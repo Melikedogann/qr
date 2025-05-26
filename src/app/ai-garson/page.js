@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Container, Title, Text, Paper, Button, ScrollArea, Box, Flex, Avatar, ActionIcon, Group, Badge, Card, Image, SimpleGrid, Divider } from '@mantine/core';
+import { Container, Title, Text, Paper, Button, ScrollArea, Box, Flex, Avatar, ActionIcon, Group, Badge, Card, Image, SimpleGrid, Divider, Transition } from '@mantine/core';
 import { IconArrowLeft, IconChevronRight, IconPlus, IconHome, IconChefHat, IconStar, IconShoppingCart, IconMoodSmile, IconQuestionMark, IconMeat, IconGlass, IconCake } from '@tabler/icons-react';
 import Link from 'next/link';
 import styles from './page.module.css';
@@ -45,6 +45,9 @@ export default function AIGarson() {
   const [viewMode, setViewMode] = useState('welcome'); // 'welcome', 'categories', 'subcategories', 'products'
   const [cartItems, setCartItems] = useState([]);
   const [customOptions, setCustomOptions] = useState(null);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [buttonAnimation, setButtonAnimation] = useState('');
+  const [showCartNotification, setShowCartNotification] = useState(false);
   const messagesEndRef = useRef(null);
 
   // Örnek kategori verileri
@@ -172,12 +175,35 @@ export default function AIGarson() {
     scrollToBottom();
   }, [messages]);
 
+  // Sepete ürün eklendiğinde bildirim göster
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      setShowCartNotification(true);
+      const timer = setTimeout(() => {
+        setShowCartNotification(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [cartItems.length]);
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Buton tıklama animasyonunu yönet
+  const handleButtonAnimation = (btnId) => {
+    setButtonAnimation(btnId);
+    setTimeout(() => {
+      setButtonAnimation('');
+    }, 300);
+  };
+
   // Claude benzeri arayüzde kullanıcının tıkladığı seçenek bir mesaj olarak eklenir
   const handleButtonClick = (questionId, questionText) => {
+    // Buton tıklama animasyonu
+    handleButtonAnimation(questionId);
+    setIsButtonClicked(true);
+    
     // Kullanıcı mesajını ekle
     const newUserMessage = {
       id: messages.length + 1,
@@ -494,12 +520,6 @@ export default function AIGarson() {
             { id: 'menu', text: 'Alışverişe Devam Et', icon: <IconHome size={16} /> },
             { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
           ];
-        } else {
-          aiResponse = 'Sepetiniz şu anda boş.';
-          responseButtons = [
-            ...commonQuestions,
-            { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
-          ];
         }
         break;
         
@@ -658,6 +678,7 @@ export default function AIGarson() {
       // Yanıt eklendiğinde aşağı kaydır
       setTimeout(() => {
         scrollToBottom();
+        setIsButtonClicked(false);
       }, 100);
     }, 500);
   };
@@ -667,8 +688,19 @@ export default function AIGarson() {
     
     return (
       <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md" mt="md">
-        {productList.map((product) => (
-          <Card key={product.id} shadow="sm" p="sm" radius="md" withBorder className={styles.productCard}>
+        {productList.map((product, index) => (
+          <Card 
+            key={product.id} 
+            shadow="sm" 
+            p="sm" 
+            radius="md" 
+            withBorder 
+            className={styles.productCard}
+            style={{
+              animationDelay: `${index * 0.1}s`,
+              animation: `fadeIn 0.5s ease-out forwards`
+            }}
+          >
             <Card.Section>
               <Image
                 src={product.image}
@@ -708,7 +740,7 @@ export default function AIGarson() {
                 color="blue" 
                 onClick={() => handleButtonClick(`product_detail_${product.id}`, `${product.name} hakkında detay alabilir miyim?`)}
                 size="sm"
-                className={`${styles.actionButton}`}
+                className={`${styles.actionButton} ${buttonAnimation === `product_detail_${product.id}` ? styles.buttonPulse : ''}`}
                 fullWidth
               >
                 Detaylar
@@ -727,26 +759,37 @@ export default function AIGarson() {
           <Flex align="center" gap="xs" justify="space-between">
           <Flex align="center" gap="xs">
             <Link href="/">
-              <ActionIcon size="md" variant="transparent" color="white">
+              <ActionIcon size="md" variant="transparent" color="white" className={styles.backButton}>
                 <IconArrowLeft size={18} />
               </ActionIcon>
             </Link>
-            <Title order={2} size="h3">Yapay Zeka Garson</Title>
+            <Title order={2} size="h3">AI Garson</Title>
             </Flex>
-            <Button 
-              variant="light" 
-              color="orange" 
-              size="xs" 
-              onClick={() => handleButtonClick('back_main', 'Ana Menüye Dön')} 
-              leftSection={<IconHome size={16} />}
-            >
-              Ana Menü
-            </Button>
+            
           </Flex>
           <Flex align="center" justify="space-between">
             <Text size="xs" c="gray.2">Siparişiniz için size yardımcı olalım</Text>
-            {cartItems.length > 0 && (
-              <Badge color="green" size="lg" variant="filled" leftSection={<IconShoppingCart size={16} />}>
+            <Transition mounted={showCartNotification} transition="slide-down" duration={400} timingFunction="ease">
+              {(styles) => (
+                <Badge 
+                  color="green" 
+                  size="lg" 
+                  variant="filled" 
+                  leftSection={<IconShoppingCart size={16} />}
+                  style={styles}
+                  className={styles.cartBadge}
+                >
+                  {cartItems.length} ürün
+                </Badge>
+              )}
+            </Transition>
+            {cartItems.length > 0 && !showCartNotification && (
+              <Badge 
+                color="green" 
+                size="lg" 
+                variant="filled" 
+                leftSection={<IconShoppingCart size={16} />}
+              >
                 {cartItems.length} ürün
               </Badge>
             )}
@@ -807,7 +850,7 @@ export default function AIGarson() {
                         leftSection={btn.icon}
                         variant="light"
                         size="xs"
-                        className={styles.responseButton}
+                        className={`${styles.responseButton} ${buttonAnimation === btn.id ? styles.buttonPulse : ''}`}
                         onClick={() => handleButtonClick(btn.id, btn.text)}
                       >
                         {btn.text}
@@ -832,7 +875,7 @@ export default function AIGarson() {
                 size="xs"
                 leftSection={<IconShoppingCart size={16} />}
                 onClick={() => handleButtonClick('view_cart', 'Sepeti görüntüle')}
-                className={styles.viewCartButton}
+                className={`${styles.viewCartButton} ${buttonAnimation === 'view_cart' ? styles.buttonPulse : ''}`}
               >
                 Sepeti Görüntüle
               </Button>
