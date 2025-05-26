@@ -190,9 +190,10 @@ export default function AIGarson() {
     let aiResponse = '';
     let responseButtons = [];
     
-    switch(questionId) {
-      // Direkt kategori menüleri için yeni case'ler ekleyelim
-      case 'baslangiçlar_menu':
+    // Tüm durumları switch-case yapısına dönüştürelim
+    switch(true) {
+      // Direkt kategori menüleri için case'ler
+      case questionId === 'baslangiçlar_menu':
         aiResponse = '';
         setActiveCategory(categories.find(c => c.id === 'baslangiçlar'));
         
@@ -212,7 +213,7 @@ export default function AIGarson() {
         ];
         break;
 
-      case 'ana_yemekler_menu':
+      case questionId === 'ana_yemekler_menu':
         aiResponse = '';
         setActiveCategory(categories.find(c => c.id === 'yemekler'));
         
@@ -234,7 +235,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'tatlilar_menu':
+      case questionId === 'tatlilar_menu':
         aiResponse = '';
         setActiveCategory(categories.find(c => c.id === 'tatlilar'));
         
@@ -255,7 +256,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'icecekler_menu':
+      case questionId === 'icecekler_menu':
         aiResponse = '';
         setActiveCategory(categories.find(c => c.id === 'icecekler'));
         
@@ -275,7 +276,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'menu':
+      case questionId === 'menu':
         aiResponse = 'Menümüzden seçim yapabilirsiniz:';
         setViewMode('categories');
         // Menü göster ile ilgili butonlar
@@ -289,7 +290,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'recommendations':
+      case questionId === 'recommendations':
         aiResponse = '';
         setCustomOptions(chefSpecials);
         responseButtons = [
@@ -299,7 +300,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'popular':
+      case questionId === 'popular':
         aiResponse = '';
         setCustomOptions(popularProducts);
         responseButtons = [
@@ -308,7 +309,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'ask':
+      case questionId === 'ask':
         aiResponse = 'Tabii, nasıl yardımcı olabilirim?';
         responseButtons = [
           { id: 'ask_allergies', text: 'Alerjisi olanlar için öneriler', icon: <IconQuestionMark size={16} /> },
@@ -318,7 +319,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'back_main':
+      case questionId === 'back_main':
         aiResponse = 'Size nasıl yardımcı olabilirim?';
         responseButtons = [
           ...commonQuestions,
@@ -331,7 +332,7 @@ export default function AIGarson() {
         setViewMode('welcome');
         break;
         
-      case 'ask_allergies':
+      case questionId === 'ask_allergies':
         aiResponse = 'Alerjisi olan misafirlerimiz için özel menümüz mevcut. Lütfen sipariş vermeden önce alerjilerinizi belirtiniz. Size uygun alternatifler sunabiliriz.';
         responseButtons = [
           { id: 'ask', text: 'Başka bir soru sormak istiyorum', icon: <IconQuestionMark size={16} /> },
@@ -339,7 +340,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'ask_time':
+      case questionId === 'ask_time':
         aiResponse = 'Siparişlerimiz ortalama 20-25 dakika içerisinde hazırlanıp servis edilmektedir. Yoğunluğa göre bu süre değişebilir.';
         responseButtons = [
           { id: 'ask', text: 'Başka bir soru sormak istiyorum', icon: <IconQuestionMark size={16} /> },
@@ -347,7 +348,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'ask_vegan':
+      case questionId === 'ask_vegan':
         aiResponse = 'Evet, vegan misafirlerimiz için özel seçeneklerimiz mevcut. Vejetaryen kategorimizde bulabilirsiniz.';
         responseButtons = [
           { id: 'menu', text: 'Menüyü Göster', icon: <IconHome size={16} /> },
@@ -356,7 +357,7 @@ export default function AIGarson() {
         ];
         break;
         
-      case 'see_all_specials':
+      case questionId === 'see_all_specials':
         aiResponse = '';
         setCustomOptions(chefSpecials);
         responseButtons = [
@@ -365,20 +366,43 @@ export default function AIGarson() {
         ];
         break;
         
-      default:
-        // Kategori seçimi
-        if (questionId.startsWith('cat_')) {
-          const categoryId = questionId.replace('cat_', '');
-          const category = categories.find(c => c.id === categoryId);
-          setActiveCategory(category);
+      // Ürün detayı
+      case questionId.startsWith('product_detail_'):
+        const productDetailId = parseInt(questionId.replace('product_detail_', ''));
+        const productDetail = Object.values(products).flat().find(p => p.id === productDetailId);
+        
+        if (productDetail) {
+          aiResponse = `${productDetail.name}: ${productDetail.description}\nFiyat: ${productDetail.price}\nKalori: ${productDetail.calories} kcal\nHazırlama süresi: ${productDetail.prepTime}`;
           
-          aiResponse = '';
+          // Ürün detayı gösterildiğinde customOptions'ı null yaparak ürün listesinin tekrar gösterilmesini engelliyoruz
+          setCustomOptions(null);
           
-          // Kategori seçimine göre doğrudan tüm ürünleri göster
+          // Ürünün hangi kategoriye ait olduğunu bulalım
+          let productCategory = null;
+          Object.entries(products).forEach(([key, value]) => {
+            if (value.some(p => p.id === productDetailId)) {
+              productCategory = key;
+            }
+          });
+          
+          responseButtons = [
+            { id: `add_to_cart_${productDetail.id}`, text: 'Sepete Ekle', icon: <IconPlus size={16} /> },
+            { id: 'back_to_products', text: 'Ürünlere Dön', icon: <IconArrowLeft size={16} /> },
+            { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+          ];
+        }
+        break;
+        
+      // Ürünlere geri dönüş
+      case questionId === 'back_to_products':
+        aiResponse = '';
+        
+        // En son gösterilen ürünleri tekrar göster
+        if (activeCategory) {
+          // Kategoriye ait tüm alt kategorilerdeki ürünleri birleştir
           let allCategoryProducts = [];
           
-          // Kategoriye ait tüm alt kategorilerdeki ürünleri birleştir
-          if (categoryId === 'yemekler') {
+          if (activeCategory.id === 'yemekler') {
             allCategoryProducts = [
               ...(products['ana_yemekler'] || []),
               ...(products['etli'] || []),
@@ -386,26 +410,26 @@ export default function AIGarson() {
               ...(products['deniz'] || []),
               ...(products['vejetaryen'] || [])
             ];
-          } else if (categoryId === 'icecekler') {
+          } else if (activeCategory.id === 'icecekler') {
             allCategoryProducts = [
               ...(products['sicak'] || []),
               ...(products['soguk'] || []),
               ...(products['alkol'] || [])
             ];
-          } else if (categoryId === 'tatlilar') {
+          } else if (activeCategory.id === 'tatlilar') {
             allCategoryProducts = [
               ...(products['sutlu'] || []),
               ...(products['sekerli'] || []),
               ...(products['dondurmalar'] || []),
               ...(products['ozel_tatlilar'] || [])
             ];
-          } else if (categoryId === 'baslangiçlar') {
+          } else if (activeCategory.id === 'baslangiçlar') {
             allCategoryProducts = [
               ...(products['salatalar'] || []),
               ...(products['mezeler'] || []),
               ...(products['corba'] || [])
             ];
-          } else if (categoryId === 'kahvalti') {
+          } else if (activeCategory.id === 'kahvalti') {
             allCategoryProducts = [
               ...(products['kahvalti_tabagi'] || []),
               ...(products['omletler'] || []),
@@ -416,151 +440,204 @@ export default function AIGarson() {
           setCustomOptions(allCategoryProducts);
           setViewMode('products');
           
-          // Alt kategoriye gitme seçeneği de ekleyelim
           responseButtons = [
-            { id: `subcategories_${categoryId}`, text: 'Alt Kategorileri Göster', icon: <IconChevronRight size={16} /> },
             { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
             { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
           ];
+        } else {
+          // Eğer aktif kategori yoksa ana menüye dön
+          responseButtons = [
+            ...commonQuestions,
+            { id: 'baslangiçlar_menu', text: 'Başlangıçlar Menüsü', icon: <IconMoodSmile size={16} /> },
+            { id: 'ana_yemekler_menu', text: 'Ana Yemekler Menüsü', icon: <IconMeat size={16} /> },
+            { id: 'tatlilar_menu', text: 'Tatlılar Menüsü', icon: <IconCake size={16} /> },
+            { id: 'icecekler_menu', text: 'İçecekler Menüsü', icon: <IconGlass size={16} /> },
+          ];
         }
+        break;
         
-        // Alt kategorileri görüntüle
-        else if (questionId.startsWith('subcategories_')) {
-          const categoryId = questionId.replace('subcategories_', '');
-          const category = categories.find(c => c.id === categoryId);
-          setActiveCategory(category);
-          
-          aiResponse = '';
-          setViewMode('subcategories');
+      // Sepete ekleme
+      case questionId.startsWith('add_to_cart_'):
+        const productId = parseInt(questionId.replace('add_to_cart_', ''));
+        const product = Object.values(products).flat().find(p => p.id === productId);
+        
+        if (product) {
+          setCartItems(prev => [...prev, product]);
+          aiResponse = `"${product.name}" sepetinize eklendi. Başka bir arzunuz var mı?`;
           
           responseButtons = [
-            ...subcategories[categoryId].map(subcat => ({ 
-              id: `subcat_${subcat.id}`, 
-              text: subcat.name, 
-              icon: <IconChevronRight size={16} /> 
-            })),
-            { id: 'menu', text: 'Diğer Kategorilere Bak', icon: <IconHome size={16} /> },
+            { id: 'view_cart', text: 'Sepeti Görüntüle', icon: <IconShoppingCart size={16} /> },
+            { id: 'menu', text: 'Menüye Devam Et', icon: <IconHome size={16} /> },
             { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
           ];
         }
+        break;
         
-        // Subkategori seçimi
-        else if (questionId.startsWith('subcat_')) {
-          const subcategoryId = questionId.replace('subcat_', '');
-          const subcategory = Object.values(subcategories).flat().find(s => s.id === subcategoryId);
+      // Sepeti görüntüle
+      case questionId === 'view_cart':
+        if (cartItems.length > 0) {
+          // String formatındaki fiyatları temizleyip sayıya dönüştürüyoruz
+          const total = cartItems.reduce((sum, item) => {
+            // "120 TL" gibi string'den sadece sayı kısmını al
+            const priceValue = parseInt(item.price.replace(/[^0-9]/g, ''));
+            return sum + priceValue;
+          }, 0);
           
-          setActiveSubcategory(subcategory);
-          aiResponse = '';
-          setViewMode('products');
+          aiResponse = `Sepetinizde ${cartItems.length} ürün bulunuyor. Toplam tutar: ${total} TL`;
           
-          // Ürünleri doğru subcategory ID'sine göre ayarla
-          const subcategoryProducts = products[subcategoryId] || [];
-          setCustomOptions(subcategoryProducts);
+          // Sepetteki ürünleri göstermek için
+          const cartItemsList = cartItems.map(item => `- ${item.name} (${item.price})`).join('\n');
+          aiResponse += '\n\n' + cartItemsList;
           
           responseButtons = [
-            { id: `back_to_${activeCategory.id}`, text: 'Kategoriye Dön', icon: <IconArrowLeft size={16} /> },
-            { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
+            { id: 'complete_order', text: 'Siparişi Tamamla', icon: <IconShoppingCart size={16} /> },
+            { id: 'menu', text: 'Alışverişe Devam Et', icon: <IconHome size={16} /> },
             { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
           ];
-        }
-        
-        // Ürün detayı
-        else if (questionId.startsWith('product_detail_')) {
-          const productId = parseInt(questionId.replace('product_detail_', ''));
-          const product = Object.values(products).flat().find(p => p.id === productId);
-          
-          if (product) {
-            aiResponse = `${product.name}: ${product.description}\nFiyat: ${product.price}\nKalori: ${product.calories} kcal\nHazırlama süresi: ${product.prepTime}`;
-            
-            responseButtons = [
-              { id: `add_to_cart_${product.id}`, text: 'Sepete Ekle', icon: <IconPlus size={16} /> },
-              { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
-            ];
-          }
-        }
-        
-        // Sepete ekleme
-        else if (questionId.startsWith('add_to_cart_')) {
-          const productId = parseInt(questionId.replace('add_to_cart_', ''));
-          const product = Object.values(products).flat().find(p => p.id === productId);
-          
-          if (product) {
-            setCartItems(prev => [...prev, product]);
-            aiResponse = `"${product.name}" sepetinize eklendi. Başka bir arzunuz var mı?`;
-            
-            responseButtons = [
-              { id: 'view_cart', text: 'Sepeti Görüntüle', icon: <IconShoppingCart size={16} /> },
-              { id: 'menu', text: 'Menüye Devam Et', icon: <IconHome size={16} /> },
-              { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
-            ];
-          }
-        }
-        
-        // Sepeti görüntüle
-        else if (questionId === 'view_cart') {
-          if (cartItems.length > 0) {
-            // String formatındaki fiyatları temizleyip sayıya dönüştürüyoruz
-            const total = cartItems.reduce((sum, item) => {
-              // "120 TL" gibi string'den sadece sayı kısmını al
-              const priceValue = parseInt(item.price.replace(/[^0-9]/g, ''));
-              return sum + priceValue;
-            }, 0);
-            
-            aiResponse = `Sepetinizde ${cartItems.length} ürün bulunuyor. Toplam tutar: ${total} TL`;
-            
-            // Sepetteki ürünleri göstermek için
-            const cartItemsList = cartItems.map(item => `- ${item.name} (${item.price})`).join('\n');
-            aiResponse += '\n\n' + cartItemsList;
-            
-            responseButtons = [
-              { id: 'complete_order', text: 'Siparişi Tamamla', icon: <IconShoppingCart size={16} /> },
-              { id: 'menu', text: 'Alışverişe Devam Et', icon: <IconHome size={16} /> },
-              { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
-            ];
-          } else {
-            aiResponse = 'Sepetiniz şu anda boş.';
-            responseButtons = [
-              ...commonQuestions,
-              { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
-            ];
-          }
-        }
-        
-        // Siparişi tamamla
-        else if (questionId === 'complete_order') {
-          aiResponse = 'Siparişiniz alındı! Teşekkür ederiz. Yemeğiniz en kısa sürede hazırlanacak.';
-          setCartItems([]);
-          responseButtons = [
-            { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
-          ];
-        }
-        
-        // Kategori dönüş
-        else if (questionId.startsWith('back_to_')) {
-          const categoryId = questionId.replace('back_to_', '');
-          const category = categories.find(c => c.id === categoryId);
-          
-          aiResponse = '';
-          setViewMode('subcategories');
-          setCustomOptions(null);
-          
-          responseButtons = [
-            ...subcategories[categoryId].map(subcat => ({ 
-              id: `subcat_${subcat.id}`, 
-              text: subcat.name, 
-              icon: <IconChevronRight size={16} /> 
-            })),
-            { id: 'menu', text: 'Diğer Kategorilere Bak', icon: <IconHome size={16} /> },
-            { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
-          ];
-        }
-        else {
-          aiResponse = 'Size nasıl yardımcı olabilirim?';
+        } else {
+          aiResponse = 'Sepetiniz şu anda boş.';
           responseButtons = [
             ...commonQuestions,
             { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
           ];
         }
+        break;
+        
+      // Siparişi tamamla
+      case questionId === 'complete_order':
+        aiResponse = 'Siparişiniz alındı! Teşekkür ederiz. Yemeğiniz en kısa sürede hazırlanacak.';
+        setCartItems([]);
+        responseButtons = [
+          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+        ];
+        break;
+        
+      // Kategori dönüş
+      case questionId.startsWith('back_to_') && questionId !== 'back_to_products':
+        const categoryId = questionId.replace('back_to_', '');
+        const category = categories.find(c => c.id === categoryId);
+        
+        aiResponse = '';
+        setViewMode('subcategories');
+        setCustomOptions(null);
+        
+        responseButtons = [
+          ...subcategories[categoryId].map(subcat => ({ 
+            id: `subcat_${subcat.id}`, 
+            text: subcat.name, 
+            icon: <IconChevronRight size={16} /> 
+          })),
+          { id: 'menu', text: 'Diğer Kategorilere Bak', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+        ];
+        break;
+        
+      // Kategori seçimi
+      case questionId.startsWith('cat_'):
+        const catId = questionId.replace('cat_', '');
+        const selectedCategory = categories.find(c => c.id === catId);
+        setActiveCategory(selectedCategory);
+        
+        aiResponse = '';
+        
+        // Kategori seçimine göre doğrudan tüm ürünleri göster
+        let allCategoryProducts = [];
+        
+        // Kategoriye ait tüm alt kategorilerdeki ürünleri birleştir
+        if (catId === 'yemekler') {
+          allCategoryProducts = [
+            ...(products['ana_yemekler'] || []),
+            ...(products['etli'] || []),
+            ...(products['tavuk'] || []),
+            ...(products['deniz'] || []),
+            ...(products['vejetaryen'] || [])
+          ];
+        } else if (catId === 'icecekler') {
+          allCategoryProducts = [
+            ...(products['sicak'] || []),
+            ...(products['soguk'] || []),
+            ...(products['alkol'] || [])
+          ];
+        } else if (catId === 'tatlilar') {
+          allCategoryProducts = [
+            ...(products['sutlu'] || []),
+            ...(products['sekerli'] || []),
+            ...(products['dondurmalar'] || []),
+            ...(products['ozel_tatlilar'] || [])
+          ];
+        } else if (catId === 'baslangiçlar') {
+          allCategoryProducts = [
+            ...(products['salatalar'] || []),
+            ...(products['mezeler'] || []),
+            ...(products['corba'] || [])
+          ];
+        } else if (catId === 'kahvalti') {
+          allCategoryProducts = [
+            ...(products['kahvalti_tabagi'] || []),
+            ...(products['omletler'] || []),
+            ...(products['tostlar'] || [])
+          ];
+        }
+        
+        setCustomOptions(allCategoryProducts);
+        setViewMode('products');
+        
+        // Alt kategoriye gitme seçeneği de ekleyelim
+        responseButtons = [
+          { id: `subcategories_${catId}`, text: 'Alt Kategorileri Göster', icon: <IconChevronRight size={16} /> },
+          { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+        ];
+        break;
+        
+      // Alt kategorileri görüntüle
+      case questionId.startsWith('subcategories_'):
+        const subCategoryId = questionId.replace('subcategories_', '');
+        const subCategory = categories.find(c => c.id === subCategoryId);
+        setActiveCategory(subCategory);
+        
+        aiResponse = '';
+        setViewMode('subcategories');
+        
+        responseButtons = [
+          ...subcategories[subCategoryId].map(subcat => ({ 
+            id: `subcat_${subcat.id}`, 
+            text: subcat.name, 
+            icon: <IconChevronRight size={16} /> 
+          })),
+          { id: 'menu', text: 'Diğer Kategorilere Bak', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+        ];
+        break;
+        
+      // Subkategori seçimi
+      case questionId.startsWith('subcat_'):
+        const subcategoryId = questionId.replace('subcat_', '');
+        const subcategory = Object.values(subcategories).flat().find(s => s.id === subcategoryId);
+        
+        setActiveSubcategory(subcategory);
+        aiResponse = '';
+        setViewMode('products');
+        
+        // Ürünleri doğru subcategory ID'sine göre ayarla
+        const subcategoryProducts = products[subcategoryId] || [];
+        setCustomOptions(subcategoryProducts);
+        
+        responseButtons = [
+          { id: `back_to_${activeCategory.id}`, text: 'Kategoriye Dön', icon: <IconArrowLeft size={16} /> },
+          { id: 'menu', text: 'Menüye Dön', icon: <IconHome size={16} /> },
+          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+        ];
+        break;
+        
+      // Varsayılan durum
+      default:
+        aiResponse = 'Size nasıl yardımcı olabilirim?';
+        responseButtons = [
+          ...commonQuestions,
+          { id: 'back_main', text: 'Ana Menüye Dön', icon: <IconHome size={16} /> }
+        ];
+        break;
     }
 
     // Önce kullanıcı mesajını ekle
